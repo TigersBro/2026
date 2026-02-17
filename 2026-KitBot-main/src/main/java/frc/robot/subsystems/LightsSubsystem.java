@@ -5,6 +5,8 @@ import com.lumynlabs.devices.ConnectorXAnimate;
 import com.lumynlabs.connection.usb.USBPort;
 import com.lumynlabs.domain.led.Animation;
 
+//Coding is fun
+
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
@@ -13,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LightsSubsystem extends SubsystemBase {
   private static final USBPort USB_PORT = USBPort.kUSB1;
+  //VIRUS 
+  //LIAM IS THE VIRUS
   private static final String MATRIX_ZONE = "matrix-32x8";
 
   public enum Mode { IDLE, INTAKING, LAUNCHING, SPINUP, ERROR }
