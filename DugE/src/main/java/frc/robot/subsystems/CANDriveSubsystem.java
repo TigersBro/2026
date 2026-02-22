@@ -4,21 +4,29 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.DriveConstants.DRIVE_MOTOR_CURRENT_LIMIT;
+import static frc.robot.Constants.DriveConstants.LEFT_FOLLOWER_ID;
+import static frc.robot.Constants.DriveConstants.LEFT_LEADER_ID;
+import static frc.robot.Constants.DriveConstants.RIGHT_FOLLOWER_ID;
+import static frc.robot.Constants.DriveConstants.RIGHT_LEADER_ID;
+
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
-import static frc.robot.Constants.DriveConstants.*;
-
 public class CANDriveSubsystem extends SubsystemBase {
+ 
+ 
+ 
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
@@ -26,7 +34,9 @@ public class CANDriveSubsystem extends SubsystemBase {
   private boolean reverseRotation;
   private boolean reverseFront;
   private boolean speedToggle;
-
+  private final RelativeEncoder leftEncoder;
+  private final RelativeEncoder rightEncoder;
+  
 
 
 
@@ -76,6 +86,12 @@ public class CANDriveSubsystem extends SubsystemBase {
     // so that postive values drive both sides forward
     config.inverted(true);
     leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  
+  
+  
+    leftEncoder = leftLeader.getEncoder();
+    rightEncoder = rightLeader.getEncoder();
+
   }
 
   @Override
