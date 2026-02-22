@@ -24,14 +24,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
-<<<<<<< Updated upstream
-=======
 import static frc.robot.Constants.DriveConstants.*;
 @Logged
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 public class CANDriveSubsystem extends SubsystemBase {
  
  
