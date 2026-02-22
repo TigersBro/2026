@@ -13,6 +13,9 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+
 import static frc.robot.Constants.DriveConstants.*;
 
 public class CANDriveSubsystem extends SubsystemBase {
@@ -20,6 +23,12 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
+  private boolean reverseRotation;
+  private boolean reverseFront;
+  private boolean speedToggle;
+
+
+
 
   private final DifferentialDrive drive;
 
@@ -73,8 +82,37 @@ public class CANDriveSubsystem extends SubsystemBase {
   public void periodic() {
   }
 
-  public void driveArcade(double xSpeed, double zRotation) {
-    drive.arcadeDrive(xSpeed, zRotation);
+  public void driveArcade(double xSpeed, double zRotation, boolean squared) {
+    double zRotationToUse;
+    zRotationToUse = zRotation *.7;
+    xSpeed = xSpeed *.8;
+    if (reverseFront == true)
+    {
+      xSpeed = xSpeed * -1;
+    }
+    if (reverseRotation == true)
+    {
+      zRotationToUse = zRotation * -1;
+    }
+    
+    double deadband;
+    deadband = zRotation;
+    deadband = Math.abs(deadband); 
+    if (deadband < .2)
+    {
+         zRotationToUse = 0;
+    }
+    
+    if ( speedToggle == true )
+    {
+      xSpeed = xSpeed *  DriveConstants.SLOW_MODE_MOVE;
+      zRotationToUse = zRotationToUse * DriveConstants.SLOW_MODE_TURN;
+    }
+    else
+    {
+      zRotationToUse = zRotationToUse * Constants.DriveConstants.TURN_MULTIPLIER;
+    }
+    drive.arcadeDrive( xSpeed, zRotationToUse, squared);
   }
 
 }
