@@ -13,13 +13,14 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import static frc.robot.Constants.FuelConstants.*;
-
+@Logged
 public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax LeftIntakeLauncher;
   private final SparkMax RightIntakeLauncher;

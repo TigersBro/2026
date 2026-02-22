@@ -18,11 +18,17 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
+<<<<<<< Updated upstream
+=======
+import static frc.robot.Constants.DriveConstants.*;
+@Logged
+>>>>>>> Stashed changes
 public class CANDriveSubsystem extends SubsystemBase {
  
  

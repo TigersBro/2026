@@ -7,10 +7,11 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ClimbConstatns.*;
-
+@Logged
 public class ClimberSubsystem extends SubsystemBase {
   private final SparkMax climberMotor;
 
