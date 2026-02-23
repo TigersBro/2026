@@ -3,10 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
 
@@ -35,11 +37,11 @@ public class RobotContainer {
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   // The driver's controller
-  private final CommandXboxController driverController = new CommandXboxController(
+  private final Joystick driverController = new Joystick(
       DRIVER_CONTROLLER_PORT);
 
   // The operator's controller, by default it is setup to use a single controller
-  private final CommandXboxController operatorController = new CommandXboxController(
+  private final PS5Controller operatorController = new PS5Controller(
       OPERATOR_CONTROLLER_PORT);
 
   // The autonomous chooser
@@ -71,24 +73,23 @@ public class RobotContainer {
   private void configureBindings() {
 
     // While the left bumper on operator controller is held, intake Fuel
-    driverController.leftBumper().whileTrue(new Intake(fuelSubsystem));
+   //// operatorController.leftBumper().whileTrue(new Intake(fuelSubsystem));
     // While the right bumper on the operator controller is held, spin up for 1
     // second, then launch fuel. When the button is released, stop.
-    driverController.rightBumper().whileTrue(new LaunchSequence(fuelSubsystem));
+   ///// operatorController.rightBumper().whileTrue(new LaunchSequence(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
-    driverController.a().whileTrue(new Eject(fuelSubsystem));
-   // While the down arrow on the directional pad is held it will unclimb the robot
-    driverController.povDown().whileTrue(new ClimbDown(climberSubsystem));
-    // While the up arrow on the directional pad is held it will cimb the robot
-    driverController.povUp().whileTrue(new ClimbUp(climberSubsystem));
-
+  ////  operatorController.a().whileTrue(new Eject(fuelSubsystem));
+   //// operatorController.povDown().whileTrue(new ClimbDown(climberSubsystem));   
+   //// operatorController.pov .whileTrue(new ClimbUp(climberSubsystem));
+  ////  operatorController.getPOV(DRIVER_CONTROLLER_PORT)
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
     // stick away from you (a negative value) drives the robot forwards (a positive
     // value)
-    driveSubsystem.setDefaultCommand(new Drive(driveSubsystem, driverController));
+   //// driveSubsystem.setDefaultCommand(new arcade(driveSubsystem, driverController));
+    driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
 
     fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
 
