@@ -135,4 +135,13 @@ public class CANDriveSubsystem extends SubsystemBase {
     drive.arcadeDrive( xSpeed, zRotationToUse, squared);
   }
 
+  public void speedToggle()
+  {
+    if( speedToggle == true)
+      speedToggle = false;
+    else
+      speedToggle = true;
+
+
+  }
 }

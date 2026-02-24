@@ -35,6 +35,7 @@ public final class Constants {
     public static final double SLOW_MODE_TURN = 0.65;
     public static final double TURN_MULTIPLIER = .8333;
 
+    public static final int THUMB_TRIGGER = 2;
 
 
     // Current limit for drivetrain motors. 60A is a reasonable maximum to reduce
@@ -86,5 +87,10 @@ public final class Constants {
     // help avoid turning too fast and beign difficult to control
     public static final double DRIVE_SCALING = 1;
     public static final double ROTATION_SCALING = 1;
+
+    public static final int DRIVER_CONTROLLER_PORT0 = 0;
+    public static final int OPERATOR_CONTROLLER_PORT1 = 1;
+    public static final int TANK_CONTROLLER_PORT2 = 2;
+  
   } 
 }
