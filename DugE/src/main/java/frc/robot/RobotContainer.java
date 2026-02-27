@@ -93,7 +93,26 @@ public class RobotContainer {
     // stick away from you (a negative value) drives the robot forwards (a positive
     // value)
    //// driveSubsystem.setDefaultCommand(new arcade(driveSubsystem, driverController));
-    driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
+ //   driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
+
+   ///If this doesn't work....try commenting in the next line
+    driveSubsystem.setDefaultCommand(driveSubsystem.run(() -> driveSubsystem.driveArcade(
+                                                                                          driverController.getY(),
+                                                                                          driverController.getZ() ,
+                                                                                          true 
+                                                                                         ) 
+                                                       )  
+                                    ) ;
+
+                                                                                         /*
+    driveSubsystem.setDefaultCommand(driveSubsystem.driveArcadeSupplier( 
+                                                                          () -> -driverController.getY(),
+                                                                          () -> -driverController.getZ() ,
+                                                                          () -> true 
+                                                                        )
+                                    );
+*/
+
 
     fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
 

@@ -18,8 +18,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -144,4 +148,10 @@ public class CANDriveSubsystem extends SubsystemBase {
 
 
   }
+  public Command driveArcadeSupplier(DoubleSupplier xSpeed, DoubleSupplier zRotation, BooleanSupplier squared) 
+  {
+    return this.run(
+        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble(), squared.getAsBoolean()));
+  }
 }
+
