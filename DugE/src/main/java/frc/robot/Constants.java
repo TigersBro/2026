@@ -7,6 +7,7 @@ package frc.robot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -95,4 +96,11 @@ public final class Constants {
     public static final int TANK_CONTROLLER_PORT2 = 2;
   
   } 
+  public static final class FieldConstants{
+    
+
+    Translation2d blueHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS USING FIELD
+    Translation2d redHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS
+    
+  }
 }

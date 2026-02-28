@@ -21,6 +21,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,6 +40,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
+  //private final ADIS16470_IMU m_gyro = new ADIS16470_IMU(); Need to figure out which gyro we are using.
   private boolean reverseRotation;
   private boolean reverseFront;
   private boolean speedToggle;
@@ -118,22 +120,25 @@ public class CANDriveSubsystem extends SubsystemBase {
 
 
     poseEstimator.update(
-        getGyroRotation(),
-        getLeftDistanceMeters(),
-        getRightDistanceMeters()
+                          getGyroRotation(),
+                          getLeftDistanceMeters(),
+                          getRightDistanceMeters()
+                          );
+
+   if (LimelightHelpers.getTV("limelight")) {
+
+    Pose2d botPose =
+        LimelightHelpers.getBotPose2d_wpiBlue("limelight");
+
+    double timestamp =
+        Timer.getFPGATimestamp() - 
+        (LimelightHelpers.getLatency_Capture("limelight") / 1000.0);
+
+    poseEstimator.addVisionMeasurement(
+        botPose,
+        timestamp
     );
-
-    if (LimelightHelpers.getTV("limelight")) 
-    { // target visible
-        
-        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight");
-
-        double x = botPose.getX();
-        double y = botPose.getY();
-        double yaw = botPose.getRotation().getDegrees();
-
-        // Use x, y, yaw here for control
-    }
+}
 
   }
 
@@ -230,7 +235,9 @@ public class CANDriveSubsystem extends SubsystemBase {
     else
       reverseFront = true; 
   }
-  
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drive.tankDrive(leftSpeed, rightSpeed);    
+    }
 
 
 }
