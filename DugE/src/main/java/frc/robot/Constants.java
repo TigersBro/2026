@@ -7,6 +7,7 @@ package frc.robot;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import edu.wpi.first.math.geometry.Translation2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -27,7 +28,9 @@ public final class Constants {
     public static final int RIGHT_LEADER_ID = 3;
     public static final int RIGHT_FOLLOWER_ID = 4;
 
-    
+
+    public static final int DRIVE_REVERSE_FRONT_BUTTON_ID = 4;
+    public static final int DRIVE_REVERSE_ROTATION_BUTTON_ID = 11;
 
     public static final double SLOW_MODE_MOVE = 0.55;
     public static final double SUPER_SLOW_MODE_MOVE = 0.3;
@@ -36,7 +39,7 @@ public final class Constants {
     public static final double TURN_MULTIPLIER = .8333;
 
     public static final int THUMB_TRIGGER = 2;
-
+    public static final double kTrackWidth = 0.6; // TODO Measure distance between left and right wheels (meters).
 
     // Current limit for drivetrain motors. 60A is a reasonable maximum to reduce
     // likelihood of tripping breakers or damaging CIM motors
@@ -93,4 +96,11 @@ public final class Constants {
     public static final int TANK_CONTROLLER_PORT2 = 2;
   
   } 
+  public static final class FieldConstants{
+    
+
+    Translation2d blueHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS USING FIELD
+    Translation2d redHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS
+    
+  }
 }
