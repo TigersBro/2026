@@ -99,8 +99,8 @@ public final class Constants {
   public static final class FieldConstants{
     
 
-    Translation2d blueHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS USING FIELD
-    Translation2d redHub = new Translation2d(5.0, 3.0);   //TODO FIX THIS
+    Translation2d blueHub = new Translation2d(5.15, 4.11);
+    Translation2d redHub = new Translation2d(12.38, 4.11);
     
   }
 }
