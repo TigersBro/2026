@@ -121,6 +121,10 @@ public class RobotContainer {
     
     driverController.button(DriveConstants.THUMB_TRIGGER).toggleOnTrue(new InstantCommand( () -> driveSubsystem.speedToggle() ));
 
+    //driverController.triangle().toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
+  
+    driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseRotation() ));
+    driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
   }
 
   /**

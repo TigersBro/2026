@@ -4,12 +4,6 @@
 
 package frc.robot.subsystems;
 
-import static frc.robot.Constants.DriveConstants.DRIVE_MOTOR_CURRENT_LIMIT;
-import static frc.robot.Constants.DriveConstants.LEFT_FOLLOWER_ID;
-import static frc.robot.Constants.DriveConstants.LEFT_LEADER_ID;
-import static frc.robot.Constants.DriveConstants.RIGHT_FOLLOWER_ID;
-import static frc.robot.Constants.DriveConstants.RIGHT_LEADER_ID;
-
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -22,11 +16,17 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.LimelightHelpers;
 
 import static frc.robot.Constants.DriveConstants.*;
 @Logged
@@ -42,15 +42,26 @@ public class CANDriveSubsystem extends SubsystemBase {
   private boolean reverseRotation;
   private boolean reverseFront;
   private boolean speedToggle;
+  
   private final RelativeEncoder leftEncoder;
   private final RelativeEncoder rightEncoder;
-  
 
+  DifferentialDriveKinematics kinematics =
+    new DifferentialDriveKinematics(kTrackWidth);
 
+    DifferentialDrivePoseEstimator poseEstimator =
+    new DifferentialDrivePoseEstimator(
+        kinematics,
+        getGyroRotation(),
+        getLeftDistanceMeters(),
+        getRightDistanceMeters(),
+        new Pose2d()
+    );
 
   private final DifferentialDrive drive;
 
   public CANDriveSubsystem() {
+
     // create brushed motors for drive
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushless);
     leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushless);
@@ -104,6 +115,26 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+
+    poseEstimator.update(
+        getGyroRotation(),
+        getLeftDistanceMeters(),
+        getRightDistanceMeters()
+    );
+
+    if (LimelightHelpers.getTV("limelight")) 
+    { // target visible
+        
+        Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight");
+
+        double x = botPose.getX();
+        double y = botPose.getY();
+        double yaw = botPose.getRotation().getDegrees();
+
+        // Use x, y, yaw here for control
+    }
+
   }
 
   public void driveArcade(double xSpeed, double zRotation, boolean squared) {
@@ -152,5 +183,54 @@ public class CANDriveSubsystem extends SubsystemBase {
     return this.run(
         () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble(), squared.getAsBoolean()));
   } 
+  public Rotation2d getGyroRotation()
+  {
+    //TODO get rotation from the gyro
+    return null;
+  }
+  public Pose2d getPose() 
+  {
+    return poseEstimator.getEstimatedPosition();
+  }
+  public double getLeftDistanceMeters()
+  {
+    //TODO get left encoder distance.
+    return getEncoderDistance(leftEncoder);
+  }
+  public double getRightDistanceMeters()
+  {
+    //TODO get right encoder distance.
+    return getEncoderDistance(rightEncoder);
+  }
   
+  public double getEncoderDistance(RelativeEncoder encoder)
+  {
+    double wheelDiameter = 0.1524; // 6 inch wheel in meters
+    double gearRatio = 10.71; // TODO get gear ratio from gearbox
+
+    double positionMeters =
+        (encoder.getPosition() / gearRatio) *
+    (Math.PI * wheelDiameter);
+    return positionMeters;
+  }
+
+  
+  public void reverseRotation()
+  {
+    if( reverseRotation == true)
+      reverseRotation = false;
+    else
+      reverseRotation = true; 
+  } 
+  public void reverseFront()
+  {
+    reverseRotation();
+    if( reverseFront == true)
+      reverseFront = false;
+    else
+      reverseFront = true; 
+  }
+  
+
+
 }
