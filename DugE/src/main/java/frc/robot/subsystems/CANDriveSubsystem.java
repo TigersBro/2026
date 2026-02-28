@@ -31,37 +31,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.LimelightHelpers;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 
 import static frc.robot.Constants.DriveConstants.*;
+
 @Logged
 
 public class CANDriveSubsystem extends SubsystemBase {
- 
- 
- 
+
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
-  //private final ADIS16470_IMU m_gyro = new ADIS16470_IMU(); Need to figure out which gyro we are using.
+  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU(); Need to figure out
+  // which gyro we are using.
   private boolean reverseRotation;
   private boolean reverseFront;
   private boolean speedToggle;
-  
+
   private final RelativeEncoder leftEncoder;
   private final RelativeEncoder rightEncoder;
+  private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
-  DifferentialDriveKinematics kinematics =
-    new DifferentialDriveKinematics(kTrackWidth);
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(kTrackWidth);
 
-    DifferentialDrivePoseEstimator poseEstimator =
-    new DifferentialDrivePoseEstimator(
-        kinematics,
-        getGyroRotation(),
-        getLeftDistanceMeters(),
-        getRightDistanceMeters(),
-        new Pose2d()
-    );
+  DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(
+      kinematics,
+      getGyroRotation(),
+      getLeftDistanceMeters(),
+      getRightDistanceMeters(),
+      new Pose2d());
 
   private final DifferentialDrive drive;
 
@@ -101,7 +100,6 @@ public class CANDriveSubsystem extends SubsystemBase {
     leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(rightLeader);
     rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    
 
     // Remove following, then apply config to right leader
     config.disableFollowerMode();
@@ -110,9 +108,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     // so that postive values drive both sides forward
     config.inverted(true);
     leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  
-  
-  
+
     leftEncoder = leftLeader.getEncoder();
     rightEncoder = rightLeader.getEncoder();
 
@@ -121,127 +117,117 @@ public class CANDriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-
     poseEstimator.update(
-                          getGyroRotation(),
-                          getLeftDistanceMeters(),
-                          getRightDistanceMeters()
-                          );
+        getGyroRotation(),
+        getLeftDistanceMeters(),
+        getRightDistanceMeters());
 
-   if (LimelightHelpers.getTV("limelight")) {
+    if (LimelightHelpers.getTV("limelight")) {
 
-    Pose2d botPose =
-        LimelightHelpers.getBotPose2d_wpiBlue("limelight");
+      Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight");
 
-    double timestamp =
-        Timer.getFPGATimestamp() - 
-        (LimelightHelpers.getLatency_Capture("limelight") / 1000.0);
+      double timestamp = Timer.getFPGATimestamp() -
+          (LimelightHelpers.getLatency_Capture("limelight") / 1000.0);
 
-    poseEstimator.addVisionMeasurement(
-        botPose,
-        timestamp
-    );
-}
+      poseEstimator.addVisionMeasurement(
+          botPose,
+          timestamp);
+    }
 
   }
 
   public void driveArcade(double xSpeed, double zRotation, boolean squared) {
     double zRotationToUse;
-    zRotationToUse = zRotation *.7;
-    xSpeed = xSpeed *.8;
-    if (reverseFront == true)
-    {
+    zRotationToUse = zRotation * .7;
+    xSpeed = xSpeed * .8;
+    if (reverseFront == true) {
       xSpeed = xSpeed * -1;
     }
-    if (reverseRotation == true)
-    {
+    if (reverseRotation == true) {
       zRotationToUse = zRotation * -1;
     }
-    
+
     double deadband;
     deadband = zRotation;
-    deadband = Math.abs(deadband); 
-    if (deadband < .2)
-    {
-         zRotationToUse = 0;
+    deadband = Math.abs(deadband);
+    if (deadband < .2) {
+      zRotationToUse = 0;
     }
-    
-    if ( speedToggle == true )
-    {
-      xSpeed = xSpeed *  DriveConstants.SLOW_MODE_MOVE;
+
+    if (speedToggle == true) {
+      xSpeed = xSpeed * DriveConstants.SLOW_MODE_MOVE;
       zRotationToUse = zRotationToUse * DriveConstants.SLOW_MODE_TURN;
-    }
-    else
-    {
+    } else {
       zRotationToUse = zRotationToUse * Constants.DriveConstants.TURN_MULTIPLIER;
     }
-    drive.arcadeDrive( xSpeed, zRotationToUse, squared);
+    drive.arcadeDrive(xSpeed, zRotationToUse, squared);
   }
 
-  public void speedToggle()
-  {
-    if( speedToggle == true)
+  public void speedToggle() {
+    if (speedToggle == true)
       speedToggle = false;
     else
       speedToggle = true;
 
-
   }
+
   public Command driveArcadeSupplier(DoubleSupplier xSpeed, DoubleSupplier zRotation, BooleanSupplier squared) {
     return this.run(
         () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble(), squared.getAsBoolean()));
-  } 
-  public Rotation2d getGyroRotation()
-  {
-    //TODO get rotation from the gyro
-    return null;
   }
-  public Pose2d getPose() 
-  {
+
+  public Rotation2d getGyroRotation() {
+
+    return Rotation2d.fromDegrees(gyro.getAngle());
+  }
+
+  public Rotation2d getHeading2d() {
+    return Rotation2d.fromDegrees(gyro.getAngle());
+  }
+
+  public Pose2d getPose() {
     return poseEstimator.getEstimatedPosition();
   }
-  public double getLeftDistanceMeters()
-  {
-    //TODO get left encoder distance.
+
+  public double getLeftDistanceMeters() {
+    // TODO get left encoder distance.
     return getEncoderDistance(leftEncoder);
   }
-  public double getRightDistanceMeters()
-  {
-    //TODO get right encoder distance.
+
+  public double getRightDistanceMeters() {
+    // TODO get right encoder distance.
     return getEncoderDistance(rightEncoder);
   }
-  
-  public double getEncoderDistance(RelativeEncoder encoder)
-  {
-    double wheelDiameter = 0.1524; // 6 inch wheel in meters
-    double gearRatio = 10.71; // TODO get gear ratio from gearbox
 
-    double positionMeters =
-        (encoder.getPosition() / gearRatio) *
-    (Math.PI * wheelDiameter);
+  public double getEncoderDistance(RelativeEncoder encoder) {
+    double wheelDiameter = 0.1524; // 6 inch wheel in meters
+    double gearRatio = 8.46; // TODO Verify this is the correct ratio
+    double positionMeters = (encoder.getPosition() / gearRatio) *
+        (Math.PI * wheelDiameter);
     return positionMeters;
   }
 
-  
-  public void reverseRotation()
-  {
-    if( reverseRotation == true)
+  public void reverseRotation() {
+    if (reverseRotation == true)
       reverseRotation = false;
     else
-      reverseRotation = true; 
-  } 
-  public void reverseFront()
-  {
+      reverseRotation = true;
+  }
+
+  public void reverseFront() {
     reverseRotation();
-    if( reverseFront == true)
+    if (reverseFront == true)
       reverseFront = false;
     else
-      reverseFront = true; 
+      reverseFront = true;
   }
-  public void tankDrive(double leftSpeed, double rightSpeed) {
-    drive.tankDrive(leftSpeed, rightSpeed);    
-    }
 
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drive.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public void zeroHeading() {
+    gyro.reset();
+  }
 
 }
-
