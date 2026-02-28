@@ -94,6 +94,7 @@ public class RobotContainer {
     // value)
    //// driveSubsystem.setDefaultCommand(new arcade(driveSubsystem, driverController));
    
+ //   driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
 
    ///If this doesn't work....try commenting in the next line
     driveSubsystem.setDefaultCommand(driveSubsystem.run(() -> driveSubsystem.driveArcade(
