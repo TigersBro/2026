@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import static frc.robot.Constants.FuelConstants.LAUNCHER_SHORT_SHOT;
 import static frc.robot.Constants.OperatorConstants.*;
 
 import frc.robot.Constants.DriveConstants;
@@ -128,12 +130,12 @@ public class RobotContainer {
     driverController.button(DriveConstants.THUMB_TRIGGER).toggleOnTrue(new InstantCommand( () -> driveSubsystem.speedToggle() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseRotation() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
-    driverController.button(DriveConstants.TRIGGER).whileTrue( new LaunchSequence(fuelSubsystem));
+    driverController.button(DriveConstants.TRIGGER).whileTrue( new LaunchSequence(fuelSubsystem, LAUNCHER_SHORT_SHOT));
     driverController.button(DriveConstants.TURN_TO_BLUE).whileTrue( new TurnToPoint(driveSubsystem, Constants.FieldConstants.blueHub));
     driverController.button(DriveConstants.TURN_TO_RED).whileTrue( new TurnToPoint(driveSubsystem, Constants.FieldConstants.redHub));
 
 
-    operatorController.R1().whileTrue(new LaunchSequence(fuelSubsystem));
+    operatorController.R1().whileTrue(new LaunchSequence(fuelSubsystem, Constants.FuelConstants.LAUNCHER_SHORT_SHOT));
     operatorController.circle().whileTrue(new Intake(fuelSubsystem));
     operatorController.triangle().whileTrue(new InstantCommand( () -> fuelSubsystem.spitItOut()));
   
