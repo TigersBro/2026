@@ -75,6 +75,11 @@ public class CANFuelSubsystem extends SubsystemBase {
     Feeder.set(power); // positive for shooting
   }
 
+  public void stopStuffFromGoingInTheShooter()
+  {
+    Feeder.set(Constants.FuelConstants.INDEXER_THE_BRAKE);
+  }
+
   // A method to stop the rollers
   public void stop() {
     Feeder.set(0);

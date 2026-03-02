@@ -31,6 +31,7 @@ public final class Constants {
 
     public static final int DRIVE_REVERSE_FRONT_BUTTON_ID = 4;
     public static final int DRIVE_REVERSE_ROTATION_BUTTON_ID = 11;
+    public static final int THUMB_TRIGGER = 2;
 
     public static final double SLOW_MODE_MOVE = 0.55;
     public static final double SUPER_SLOW_MODE_MOVE = 0.3;
@@ -38,7 +39,6 @@ public final class Constants {
     public static final double SLOW_MODE_TURN = 0.65;
     public static final double TURN_MULTIPLIER = .8333;
 
-    public static final int THUMB_TRIGGER = 2;
     public static final double kTrackWidth = 0.6; // TODO Measure distance between left and right wheels (meters).
 
     // Current limit for drivetrain motors. 60A is a reasonable maximum to reduce
@@ -60,6 +60,7 @@ public final class Constants {
     public static final double INDEXER_INTAKING_PERCENT = -.8; 
     public static final double INDEXER_LAUNCHING_PERCENT = 0.6;
     public static final double INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT = -0.5;
+    public static final double INDEXER_THE_BRAKE = -.2;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
     public static final double LAUNCHING_LAUNCHER_PERCENT = .85;

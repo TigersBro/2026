@@ -96,6 +96,8 @@ public class RobotContainer {
    
  //   driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
 
+
+    fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stopStuffFromGoingInTheShooter() ));
    ///If this doesn't work....try commenting in the next line
     driveSubsystem.setDefaultCommand(driveSubsystem.run(() -> driveSubsystem.driveArcade(
                                                                                           driverController.getY(),
@@ -116,16 +118,18 @@ public class RobotContainer {
 
 
 
-    fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
-
-    climberSubsystem.setDefaultCommand(climberSubsystem.run(() -> climberSubsystem.stop()));
+    //fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
+    //driverController.triangle().toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
+    //climberSubsystem.setDefaultCommand(climberSubsystem.run(() -> climberSubsystem.stop()));
     
     driverController.button(DriveConstants.THUMB_TRIGGER).toggleOnTrue(new InstantCommand( () -> driveSubsystem.speedToggle() ));
+   //TODO operatorController.button()
 
-    //driverController.triangle().toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
-  
+
     driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseRotation() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
+
+
   }
 
   /**
