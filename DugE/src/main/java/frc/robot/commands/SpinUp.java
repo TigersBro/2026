@@ -14,10 +14,12 @@ public class SpinUp extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
+  double distance;
 
   public SpinUp(CANFuelSubsystem fuelSystem) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
+
   }
 
   // Called when the command is initially scheduled. Set the rollers to the

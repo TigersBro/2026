@@ -14,10 +14,11 @@ public class Launch extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
-
-  public Launch(CANFuelSubsystem fuelSystem) {
+  double distance;
+  public Launch(CANFuelSubsystem fuelSystem, double i_distance) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
+    distance = i_distance;
   }
 
   // Called when the command is initially scheduled. Set the rollers to the
@@ -25,8 +26,8 @@ public class Launch extends Command {
   @Override
   public void initialize() {
     fuelSubsystem
-        .setLauncherRoller(  
-          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
+        .setLauncherRoller(  distance ) ;
+//          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT));
   }
 

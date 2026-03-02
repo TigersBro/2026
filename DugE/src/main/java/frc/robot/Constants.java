@@ -33,12 +33,17 @@ public final class Constants {
     public static final int DRIVE_REVERSE_ROTATION_BUTTON_ID = 11;
     public static final int THUMB_TRIGGER = 2;
     public static final int TRIGGER = 1;
+    public static final int TURN_TO_BLUE = 9;
+    public static final int TURN_TO_RED = 9;
+    
+
 
     public static final double SLOW_MODE_MOVE = 0.55;
     public static final double SUPER_SLOW_MODE_MOVE = 0.3;
     public static final double SUPER_SLOW_MODE_TURN = 0.3;
     public static final double SLOW_MODE_TURN = 0.65;
     public static final double TURN_MULTIPLIER = .8333;
+
 
     public static final double kTrackWidth = 0.6; // TODO Measure distance between left and right wheels (meters).
 
@@ -68,7 +73,7 @@ public final class Constants {
     public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
     public static final double INTAKE_EJECT_PERCENT = -0.8;
 
-    public static final double SPIN_UP_SECONDS = 0.75;
+    public static final double SPIN_UP_SECONDS = 0.4;
   }
 
   public static final class ClimbConstatns {
@@ -102,8 +107,8 @@ public final class Constants {
   public static final class FieldConstants{
     
 
-    Translation2d blueHub = new Translation2d(5.15, 4.11);
-    Translation2d redHub = new Translation2d(12.38, 4.11);
+    public static final Translation2d blueHub = new Translation2d(5.15, 4.11);
+    public static final Translation2d redHub = new Translation2d(12.38, 4.11);
     
   }
 }

@@ -23,6 +23,7 @@ import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
+import frc.robot.commands.TurnToPoint;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -122,18 +123,21 @@ public class RobotContainer {
     //driverController.triangle().toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
     //climberSubsystem.setDefaultCommand(climberSubsystem.run(() -> climberSubsystem.stop()));
     
-    driverController.button(DriveConstants.THUMB_TRIGGER).toggleOnTrue(new InstantCommand( () -> driveSubsystem.speedToggle() ));
    //TODO operatorController.button()
 
-
+    driverController.button(DriveConstants.THUMB_TRIGGER).toggleOnTrue(new InstantCommand( () -> driveSubsystem.speedToggle() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseRotation() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
     driverController.button(DriveConstants.TRIGGER).whileTrue( new LaunchSequence(fuelSubsystem));
+    driverController.button(DriveConstants.TURN_TO_BLUE).whileTrue( new TurnToPoint(driveSubsystem, Constants.FieldConstants.blueHub));
+    driverController.button(DriveConstants.TURN_TO_RED).whileTrue( new TurnToPoint(driveSubsystem, Constants.FieldConstants.redHub));
 
 
     operatorController.R1().whileTrue(new LaunchSequence(fuelSubsystem));
     operatorController.circle().whileTrue(new Intake(fuelSubsystem));
     operatorController.triangle().whileTrue(new InstantCommand( () -> fuelSubsystem.spitItOut()));
+  
+  
   }
 
   /**
