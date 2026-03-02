@@ -4,7 +4,7 @@
 
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS5Controller;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -45,7 +45,7 @@ public class RobotContainer {
   private final CommandJoystick driverController = new CommandJoystick(OperatorConstants.DRIVER_CONTROLLER_PORT0);
 
   // The operator's controller, by default it is setup to use a single controller
-  private final PS5Controller operatorController = new PS5Controller(
+  private final CommandPS5Controller operatorController = new CommandPS5Controller(
       OPERATOR_CONTROLLER_PORT);
 
   // The autonomous chooser
@@ -97,7 +97,7 @@ public class RobotContainer {
  //   driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
 
 
-    fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stopStuffFromGoingInTheShooter() ));
+    fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stopStuffFromGoingInTheShooter(Constants.FuelConstants.INDEXER_THE_BRAKE ) ));
    ///If this doesn't work....try commenting in the next line
     driveSubsystem.setDefaultCommand(driveSubsystem.run(() -> driveSubsystem.driveArcade(
                                                                                           driverController.getY(),
@@ -128,8 +128,12 @@ public class RobotContainer {
 
     driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseRotation() ));
     driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID).toggleOnTrue(new InstantCommand( () -> driveSubsystem.reverseFront() ));
+    driverController.button(DriveConstants.TRIGGER).whileTrue( new LaunchSequence(fuelSubsystem));
 
 
+    operatorController.R1().whileTrue(new LaunchSequence(fuelSubsystem));
+    operatorController.circle().whileTrue(new Intake(fuelSubsystem));
+    operatorController.triangle().whileTrue(new InstantCommand( () -> fuelSubsystem.spitItOut()));
   }
 
   /**

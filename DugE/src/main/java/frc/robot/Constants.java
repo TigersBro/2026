@@ -32,6 +32,7 @@ public final class Constants {
     public static final int DRIVE_REVERSE_FRONT_BUTTON_ID = 4;
     public static final int DRIVE_REVERSE_ROTATION_BUTTON_ID = 11;
     public static final int THUMB_TRIGGER = 2;
+    public static final int TRIGGER = 1;
 
     public static final double SLOW_MODE_MOVE = 0.55;
     public static final double SUPER_SLOW_MODE_MOVE = 0.3;
@@ -50,6 +51,7 @@ public final class Constants {
     // Motor controller IDs for Fuel Mechanism motors
     public static final int LEFT_INTAKE_LAUNCHER_MOTOR_ID = 5;
     public static final int RIGHT_INTAKE_LAUNCHER_MOTOR_ID = 6;
+    public static final int INTAKE_MOTOR_ID = 7;
     public static final int INDEXER_MOTOR_ID = 8;
 
     // Current limit for fuel mechanism motors.
@@ -71,7 +73,7 @@ public final class Constants {
 
   public static final class ClimbConstatns {
     // Motor controller IDs for Climb motor
-    public static final int CLIMBER_MOTOR_ID = 7;
+    public static final int CLIMBER_MOTOR_ID = 9;
 
     // Current limit for climb motor
     public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
