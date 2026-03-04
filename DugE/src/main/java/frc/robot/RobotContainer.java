@@ -3,14 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.FuelConstants.LAUNCHER_SHORT_SHOT;
@@ -18,17 +16,12 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ClimbDown;
-import frc.robot.commands.ClimbUp;
-import frc.robot.commands.Drive;
-import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
-import frc.robot.commands.TurnToPoint;
+import frc.robot.commands.TurnToPoint ;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -41,7 +34,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
-  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem(); TODO add when we have a climber
 
   // The driver's controller
   
@@ -136,6 +129,7 @@ public class RobotContainer {
 
 
     operatorController.R1().whileTrue(new LaunchSequence(fuelSubsystem, Constants.FuelConstants.LAUNCHER_SHORT_SHOT));
+    operatorController.L1().whileTrue(new LaunchSequence(fuelSubsystem, Constants.FuelConstants.LAUNCHER_LONG_SHOT));
     operatorController.circle().whileTrue(new Intake(fuelSubsystem));
     operatorController.triangle().whileTrue(new InstantCommand( () -> fuelSubsystem.spitItOut()));
   

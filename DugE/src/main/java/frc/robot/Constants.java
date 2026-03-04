@@ -4,9 +4,10 @@
 
 package frc.robot;
 
-import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkFlexConfig;
+import java.util.Collections;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
 import edu.wpi.first.math.geometry.Translation2d;
 
 /**
@@ -74,10 +75,43 @@ public final class Constants {
     public static final double INTAKE_EJECT_PERCENT = -0.8;
 
     public static final double LAUNCHER_SHORT_SHOT =.3;
+    public static final double LAUNCHER_LONG_SHOT =.5;
     public static final double SPIN_UP_SECONDS = 0.4;
+  
+    public static final NavigableMap<Double, Double> DISTANCE_TO_VOLTAGE_MAP;
+
+    static {
+        TreeMap<Double, Double> map = new TreeMap<>();
+        // Distance (Key) -> Voltage (Value)
+        map.put(.5,1.0);
+        map.put(1.0,1.2);
+        map.put(1.5,1.5);
+        map.put(2.0,1.7);
+        map.put(2.5,1.9);
+        map.put(3.0,2.0);
+        map.put(3.5,2.2);
+        map.put(4.0,2.4);
+        map.put(4.5,2.6);
+        map.put(5.0,2.8);
+        map.put(5.5,3.0);
+        map.put(6.0,3.2);
+        map.put(6.5,3.4);
+        map.put(7.0,3.6);
+        map.put(7.5,3.8);
+        map.put(8.0,4.0);
+        map.put(8.5,4.2);
+        map.put(9.0,4.4);
+        map.put(9.5,4.6);
+        map.put(10.0,4.8);
+        map.put(10.5,5.0);
+        map.put(11.0,5.2);
+        map.put(11.5,5.4);
+
+        DISTANCE_TO_VOLTAGE_MAP = Collections.unmodifiableNavigableMap(map);
+    }
   }
 
-  public static final class ClimbConstatns {
+  public static final class ClimbConstants {
     // Motor controller IDs for Climb motor
     public static final int CLIMBER_MOTOR_ID = 9;
 
