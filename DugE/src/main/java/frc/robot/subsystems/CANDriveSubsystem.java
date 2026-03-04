@@ -197,9 +197,10 @@ public class CANDriveSubsystem extends SubsystemBase {
   public double getEncoderDistance(RelativeEncoder encoder) {
     double wheelDiameter = 0.1524; // 6 inch wheel in meters
     double gearRatio = 8.46; // TODO Verify this is the correct ratio
-    double positionMeters = (encoder.getPosition() / gearRatio) *
-        (Math.PI * wheelDiameter);
-    return positionMeters;
+   // double positionMeters = (encoder.getPosition() / gearRatio) *
+   //     (Math.PI * wheelDiameter);
+   double positionMeters = 0.0; 
+   return positionMeters;
   }
 
   public void reverseRotation() {

@@ -84,8 +84,8 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void stopStuffFromGoingInTheShooter (double power)
   {
     Feeder.set(power);
-    LeftLauncher.set(.5);
-    RightLauncher.set(.5);
+    LeftLauncher.set(Constants.FuelConstants.LAUNCHER_IDLE);
+    RightLauncher.set(Constants.FuelConstants.LAUNCHER_IDLE);
   }
   // A method to stop the rollers
   public void stop() {
