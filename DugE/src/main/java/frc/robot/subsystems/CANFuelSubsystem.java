@@ -86,6 +86,7 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void spitItOut(double im_power)
   {
     setIntakeRoller( im_power );
+    setFeederRoller(im_power);
   }
 
   public void setIntakeRoller(double power)

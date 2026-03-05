@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -151,6 +152,7 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
     SmartDashboard.putData("Short Shot", new  LaunchSequence(fuelSubsystem, () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
     
     SmartDashboard.putNumber(INDEXER, Constants.FuelConstants.INDEXER_THE_BRAKE);
+    SmartDashboard.putNumber(INDEXER_LAUNCH, Constants.FuelConstants.INDEXER_LAUNCHING);
     SmartDashboard.putNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT);
     SmartDashboard.putNumber(SHORT_SHOT, Constants.FuelConstants.LAUNCHER_SHORT_SHOT);
     SmartDashboard.putNumber(LONG_SHOT, Constants.FuelConstants.LAUNCHER_LONG_SHOT);
@@ -190,8 +192,12 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
     operatorController.circle().whileTrue(new Intake(fuelSubsystem,
         () -> SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
     
-    operatorController.triangle().whileTrue(new InstantCommand(() -> fuelSubsystem
-        .spitItOut( SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT))));
+   operatorController.triangle().whileTrue(new RunCommand(
+    () -> fuelSubsystem.spitItOut(
+        SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT)
+    ), 
+    fuelSubsystem
+));
 
 
         

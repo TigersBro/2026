@@ -7,6 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
+
+import static frc.robot.Constants.DashboardConstants.INTAKE;
 import static frc.robot.Constants.FuelConstants.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -26,8 +28,9 @@ public class Eject extends Command {
   public void initialize() {
     fuelSubsystem
         .setIntakeRoller(
-             -1 * SmartDashboard.getNumber("Intaking intake roller value", INTAKE_EJECT_PERCENT));
-     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking intake roller value", INDEXER_LAUNCHING_PERCENT));
+             -1 * SmartDashboard.getNumber(INTAKE, INTAKE_EJECT_PERCENT));
+
+     fuelSubsystem.setFeederRoller(-1 * SmartDashboard.getNumber(INTAKE, INTAKE_EJECT_PERCENT));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This

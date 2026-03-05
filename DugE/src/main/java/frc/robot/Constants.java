@@ -65,8 +65,9 @@ public final class Constants {
     public static final int LAUNCHER_MOTOR_CURRENT_LIMIT = 80;
 
     // All values likely need to be tuned based on your robot
-    public static final double INDEXER_LAUNCHING_PERCENT = 0.6;
+    public static final double INDEXER_LAUNCHING = 0.6;
     public static final double INDEXER_THE_BRAKE = -.2;
+    public static final double INDEXER_SPIT = -.6;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
     public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
@@ -152,7 +153,8 @@ public final class Constants {
     public static final String LONG_SHOT = "Long Shot - L1";
     public static final String INTAKE = "Intake - Circle";
     public static final String SPIT_IT_OUT = "Spit it Out - Triangle";
-    public static final String INDEXER = "Indexer";
+    public static final String INDEXER = "Indexer Prelaunch";
+    public static final String INDEXER_LAUNCH = "Indexer Launching";
     public static final String LAUNCHER_IDLE = "Launcher Idle Speed";
   }
 }

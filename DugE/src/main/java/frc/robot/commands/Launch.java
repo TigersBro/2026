@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.CANFuelSubsystem;
 import static frc.robot.Constants.FuelConstants.*;
 
@@ -30,7 +31,7 @@ public class Launch extends Command {
     fuelSubsystem
         .setLauncherRoller(  distance.getAsDouble() ) ;
 //          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT));
+    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
