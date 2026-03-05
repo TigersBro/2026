@@ -12,6 +12,9 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,6 +27,7 @@ public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax RightLauncher;
   private final SparkMax Feeder;
   private final SparkMax Intake;
+  private double idleSpeed; 
   /** Creates a new CANBallSubsystem. */
   public CANFuelSubsystem() {
     // create brushed motors for each of the motors on the launcher mechanism
@@ -49,6 +53,25 @@ public class CANFuelSubsystem extends SubsystemBase {
     RightLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     launcherConfig.inverted(true);
     LeftLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    idleSpeed = SmartDashboard.getNumber(LAUNCHER_IDLE, Constants.FuelConstants.LAUNCHER_IDLE);
+    SmartDashboard.putData("Left Launcher", new Sendable() {
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        // Essential: Mark as a motor controller for the slider widget
+        builder.setSmartDashboardType("Motor Controller");
+        
+        // Control: The slider uses the "Value" property
+        builder.addDoubleProperty("Value", LeftLauncher::get,null);
+
+        // Telemetry: Add extra fields you want to monitor
+        builder.addDoubleProperty("Velocity", () -> LeftLauncher.getEncoder().getVelocity(), null);
+        builder.addDoubleProperty("Position", () -> LeftLauncher.getEncoder().getPosition(), null);
+        builder.addDoubleProperty("Temperature", LeftLauncher::getMotorTemperature, null);
+        builder.addDoubleProperty("Bus Voltage", LeftLauncher::getBusVoltage, null);
+    }
+});
+
 
   }
 
@@ -76,9 +99,9 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void stopStuffFromGoingInTheShooter (double power)
   {
     Feeder.set(power);
-    double idle = SmartDashboard.getNumber(LAUNCHER_IDLE, Constants.FuelConstants.LAUNCHER_IDLE);
-    LeftLauncher.set(idle);
-    RightLauncher.set(idle);
+    //possible TODO...add a timer or loop  here which checks the idleSpeed to see if it has changed periodically 
+    LeftLauncher.set(idleSpeed);
+    RightLauncher.set(idleSpeed);
   }
   // A method to stop the rollers
   public void stop() {
