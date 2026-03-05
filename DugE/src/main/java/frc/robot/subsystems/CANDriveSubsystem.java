@@ -48,18 +48,14 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final RelativeEncoder rightEncoder;
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(kTrackWidth);
+  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(kTrackWidth);
 
-  DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(
-      kinematics,
-      getGyroRotation(),
-      getLeftDistanceMeters(),
-      getRightDistanceMeters(),
-      new Pose2d());
+  private DifferentialDrivePoseEstimator poseEstimator ;
 
   private final DifferentialDrive drive;
 
   public CANDriveSubsystem() {
+    
 
     // create brushed motors for drive
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushless);
@@ -107,6 +103,11 @@ public class CANDriveSubsystem extends SubsystemBase {
     leftEncoder = leftLeader.getEncoder();
     rightEncoder = rightLeader.getEncoder();
 
+    poseEstimator = new DifferentialDrivePoseEstimator( kinematics,
+                                                          getGyroRotation(),
+                                                          getLeftDistanceMeters(),
+                                                          getRightDistanceMeters(),
+                                                          new Pose2d());
   }
 
   @Override
@@ -197,9 +198,9 @@ public class CANDriveSubsystem extends SubsystemBase {
   public double getEncoderDistance(RelativeEncoder encoder) {
     double wheelDiameter = 0.1524; // 6 inch wheel in meters
     double gearRatio = 8.46; // TODO Verify this is the correct ratio
-   // double positionMeters = (encoder.getPosition() / gearRatio) *
-   //     (Math.PI * wheelDiameter);
-   double positionMeters = 0.0; 
+    double positionMeters = (encoder.getPosition() / gearRatio) *
+        (Math.PI * wheelDiameter);
+   //double positionMeters = 0.0; 
    return positionMeters;
   }
 

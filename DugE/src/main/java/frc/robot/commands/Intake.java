@@ -4,20 +4,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
-import static frc.robot.Constants.FuelConstants.*;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Intake extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
-
-  public Intake(CANFuelSubsystem fuelSystem) {
+  double power;
+  public Intake(CANFuelSubsystem fuelSystem, double im_power) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
+    power = im_power;
+
   }
 
   // Called when the command is initially scheduled. Set the rollers to the
@@ -25,7 +25,7 @@ public class Intake extends Command {
   @Override
   public void initialize() {
     fuelSubsystem
-        .setIntakeRoller(SmartDashboard.getNumber("Intaking intake roller value", INTAKE_INTAKING_PERCENT));
+        .setIntakeRoller(power);
    //  default command should make this work
         // fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking feeder roller value", INDEXER_INTAKING_PERCENT));
   }

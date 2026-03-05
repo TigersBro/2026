@@ -14,11 +14,12 @@ public class SpinUp extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
-  double distance;
+  double power;
 
-  public SpinUp(CANFuelSubsystem fuelSystem) {
+  public SpinUp(CANFuelSubsystem fuelSystem, double im_power) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
+    this.power = im_power;
 
   }
 
@@ -26,10 +27,8 @@ public class SpinUp extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
-    fuelSubsystem
-        .setLauncherRoller(
-            SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT));
+    fuelSubsystem.setLauncherRoller(power);
+    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", INDEXER_THE_BRAKE));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This

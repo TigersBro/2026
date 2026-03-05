@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import static frc.robot.Constants.DashboardConstants.LAUNCHER_IDLE;
 import static frc.robot.Constants.FuelConstants.*;
 @Logged
 public class CANFuelSubsystem extends SubsystemBase {
@@ -49,15 +50,6 @@ public class CANFuelSubsystem extends SubsystemBase {
     launcherConfig.inverted(true);
     LeftLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    // put default values for various fuel operations onto the dashboard
-    // all commands using this subsystem pull values from the dashbaord to allow
-    // you to tune the values easily, and then replace the values in Constants.java
-    // with your new values. For more information, see the Software Guide.
-    SmartDashboard.putNumber("Intaking feeder roller value", INDEXER_INTAKING_PERCENT);
-    SmartDashboard.putNumber("Intaking intake roller value", INTAKE_INTAKING_PERCENT);
-    SmartDashboard.putNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT);
-    SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT);
-    //SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
   }
 
   // A method to set the voltage of the intake roller
@@ -68,9 +60,9 @@ public class CANFuelSubsystem extends SubsystemBase {
     RightLauncher.set(power); // positive for shooting
   }
 
-  public void spitItOut()
+  public void spitItOut(double im_power)
   {
-    setIntakeRoller( Constants.FuelConstants.INTAKE_EJECT_PERCENT );
+    setIntakeRoller( im_power );
   }
 
   public void setIntakeRoller(double power)
@@ -84,8 +76,9 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void stopStuffFromGoingInTheShooter (double power)
   {
     Feeder.set(power);
-    LeftLauncher.set(Constants.FuelConstants.LAUNCHER_IDLE);
-    RightLauncher.set(Constants.FuelConstants.LAUNCHER_IDLE);
+    double idle = SmartDashboard.getNumber(LAUNCHER_IDLE, Constants.FuelConstants.LAUNCHER_IDLE);
+    LeftLauncher.set(idle);
+    RightLauncher.set(idle);
   }
   // A method to stop the rollers
   public void stop() {

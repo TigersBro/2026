@@ -35,7 +35,7 @@ public final class Constants {
     public static final int THUMB_TRIGGER = 2;
     public static final int TRIGGER = 1;
     public static final int TURN_TO_BLUE = 9;
-    public static final int TURN_TO_RED = 9;
+    public static final int TURN_TO_RED = 10;
     
 
 
@@ -65,9 +65,7 @@ public final class Constants {
     public static final int LAUNCHER_MOTOR_CURRENT_LIMIT = 80;
 
     // All values likely need to be tuned based on your robot
-    public static final double INDEXER_INTAKING_PERCENT = -.8; 
     public static final double INDEXER_LAUNCHING_PERCENT = 0.6;
-    public static final double INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT = -0.5;
     public static final double INDEXER_THE_BRAKE = -.2;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
@@ -76,7 +74,8 @@ public final class Constants {
 
     public static final double LAUNCHER_SHORT_SHOT =.3;
     public static final double LAUNCHER_IDLE =.1;
-    public static final double LAUNCHER_LONG_SHOT =.5;
+    public static final double LAUNCHER_LONG_SHOT =.7;
+    public static final double LAUNCHER_SET_SHOT =.5;
     public static final double SPIN_UP_SECONDS = 0.4;
   
     public static final NavigableMap<Double, Double> DISTANCE_TO_VOLTAGE_MAP;
@@ -146,5 +145,14 @@ public final class Constants {
     public static final Translation2d blueHub = new Translation2d(5.15, 4.11);
     public static final Translation2d redHub = new Translation2d(12.38, 4.11);
     
+  }
+  public static final class DashboardConstants{
+    public static final String SET_SHOT = "Set Shot - L2";
+    public static final String SHORT_SHOT = "Short Shot - R1";
+    public static final String LONG_SHOT = "Long Shot - L1";
+    public static final String INTAKE = "Intake - Circle";
+    public static final String SPIT_IT_OUT = "Spit it Out - Triangle";
+    public static final String INDEXER = "Indexer";
+    public static final String LAUNCHER_IDLE = "Launcher Idle Speed";
   }
 }
