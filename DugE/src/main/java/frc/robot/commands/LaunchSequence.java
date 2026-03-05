@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.FuelConstants;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -14,7 +16,7 @@ import frc.robot.subsystems.CANFuelSubsystem;
 public class LaunchSequence extends SequentialCommandGroup {
 
   /** Creates a new LaunchSequence. */
-  public LaunchSequence(CANFuelSubsystem fuelSubsystem, double i_distance) {
+  public LaunchSequence(CANFuelSubsystem fuelSubsystem, DoubleSupplier i_distance) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

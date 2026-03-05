@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
 import static frc.robot.Constants.FuelConstants.*;
 
+import java.util.function.DoubleSupplier;
+
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Launch extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
-  double distance;
-  public Launch(CANFuelSubsystem fuelSystem, double i_distance) {
+  DoubleSupplier distance;
+  public Launch(CANFuelSubsystem fuelSystem, DoubleSupplier i_distance) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
     distance = i_distance;
@@ -26,7 +28,7 @@ public class Launch extends Command {
   @Override
   public void initialize() {
     fuelSubsystem
-        .setLauncherRoller(  distance ) ;
+        .setLauncherRoller(  distance.getAsDouble() ) ;
 //          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT));
   }

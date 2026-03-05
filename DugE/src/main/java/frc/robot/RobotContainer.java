@@ -148,7 +148,7 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 
 
 
-    SmartDashboard.putData("Short Shot", new  LaunchSequence(fuelSubsystem, SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
+    SmartDashboard.putData("Short Shot", new  LaunchSequence(fuelSubsystem, () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
     
     SmartDashboard.putNumber(INDEXER, Constants.FuelConstants.INDEXER_THE_BRAKE);
     SmartDashboard.putNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT);
@@ -161,27 +161,37 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 
     driverController.button(DriveConstants.THUMB_TRIGGER)
         .toggleOnTrue(new InstantCommand(() -> driveSubsystem.speedToggle()));
+
     driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID)
         .toggleOnTrue(new InstantCommand(() -> driveSubsystem.reverseRotation()));
+    
     driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID)
         .toggleOnTrue(new InstantCommand(() -> driveSubsystem.reverseFront()));
-    driverController.button(DriveConstants.TRIGGER)
-        .whileTrue(new LaunchSequence(fuelSubsystem, SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
     driverController.button(DriveConstants.TURN_TO_BLUE)
         .whileTrue(new TurnToPoint(driveSubsystem, Constants.FieldConstants.blueHub));
     driverController.button(DriveConstants.TURN_TO_RED)
         .whileTrue(new TurnToPoint(driveSubsystem, Constants.FieldConstants.redHub));
 
+    
+   driverController.button(DriveConstants.TRIGGER)
+        .whileTrue(new LaunchSequence(fuelSubsystem, 
+                       () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
+     
     operatorController.R1()
-        .whileTrue(new LaunchSequence(fuelSubsystem, SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
+        .whileTrue(new LaunchSequence(fuelSubsystem, 
+        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
+    
     operatorController.L1().whileTrue(new LaunchSequence(fuelSubsystem,
-        SmartDashboard.getNumber(LONG_SHOT, Constants.FuelConstants.LAUNCHER_LONG_SHOT)));
+        () ->  SmartDashboard.getNumber(LONG_SHOT, Constants.FuelConstants.LAUNCHER_LONG_SHOT)));
+    
     operatorController.L2().whileTrue(new LaunchSequence(fuelSubsystem,
-        SmartDashboard.getNumber(SET_SHOT, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
+        () -> SmartDashboard.getNumber(SET_SHOT, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
+    
     operatorController.circle().whileTrue(new Intake(fuelSubsystem,
-        SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
+        () -> SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
+    
     operatorController.triangle().whileTrue(new InstantCommand(() -> fuelSubsystem
-        .spitItOut(SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT))));
+        .spitItOut( SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT))));
 
 
         
