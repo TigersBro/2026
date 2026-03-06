@@ -6,23 +6,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Zero extends Command {
   /** Creates a new Zero. */
   CANFuelSubsystem fuelSubsystem;
+  IntakeSubsystem intake;
   
-  public Zero(CANFuelSubsystem i_fuelSystem) {
+  public Zero(CANFuelSubsystem i_fuelSystem, IntakeSubsystem i_intake) {
     // Use addRequirements() here to declare subsystem dependencies.
   addRequirements(fuelSubsystem);
+  addRequirements(i_intake);
   fuelSubsystem = i_fuelSystem;
+  intake = i_intake;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     fuelSubsystem.setFeederRoller(0);
-    fuelSubsystem.setIntakeRoller(0);
+    intake.setIntakeRoller(0);
     fuelSubsystem.setLauncherRoller(0);
 
   }

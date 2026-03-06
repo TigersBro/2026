@@ -26,7 +26,6 @@ public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax LeftLauncher;
   private final SparkMax RightLauncher;
   private final SparkMax Feeder;
-  private final SparkMax Intake;
   private double idleSpeed; 
   /** Creates a new CANBallSubsystem. */
   public CANFuelSubsystem() {
@@ -34,14 +33,12 @@ public class CANFuelSubsystem extends SubsystemBase {
     LeftLauncher = new SparkMax(LEFT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     RightLauncher = new SparkMax(RIGHT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     Feeder = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushless);
-    Intake = new SparkMax(Constants.FuelConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
     // create the configuration for the feeder roller, set a current limit and apply
     // the config to the controller
     SparkMaxConfig feederConfig = new SparkMaxConfig();
     feederConfig.smartCurrentLimit(INDEXER_MOTOR_CURRENT_LIMIT);
     Feeder.configure(feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     feederConfig.inverted(true);
-    Intake.configure(feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     // create the configuration for the launcher roller, set a current limit, set
     // the motor to inverted so that positive values are used for both intaking and
     // launching, and apply the config to the controller
@@ -85,14 +82,9 @@ public class CANFuelSubsystem extends SubsystemBase {
 
   public void spitItOut(double im_power)
   {
-    setIntakeRoller( im_power );
     setFeederRoller(im_power);
   }
 
-  public void setIntakeRoller(double power)
-  {
-    Intake.set(power);
-  }
   // A method to set the voltage of the intake roller
   public void setFeederRoller(double power) {
     Feeder.set(power); // positive for shooting

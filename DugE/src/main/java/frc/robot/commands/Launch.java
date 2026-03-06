@@ -38,6 +38,12 @@ public class Launch extends Command {
   // command doesn't require updating any values while running
   @Override
   public void execute() {
+
+        fuelSubsystem
+        .setLauncherRoller(  distance.getAsDouble() ) ;
+//          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
+    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
+
   }
 
   // Called once the command ends or is interrupted. Stop the rollers

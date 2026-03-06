@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,6 +34,7 @@ import frc.robot.commands.LaunchSequence;
 import frc.robot.commands.TurnToPoint;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -45,6 +47,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
   // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   // TODO add when we have a climber
 
@@ -68,7 +71,7 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
+    autoChooser.setDefaultOption("Autonomous", new ExampleAuto(intake, driveSubsystem, fuelSubsystem));
   }
 
   /**
@@ -175,9 +178,9 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
         .whileTrue(new TurnToPoint(driveSubsystem, Constants.FieldConstants.redHub));
 
     
-   driverController.button(DriveConstants.TRIGGER)
-        .whileTrue(new LaunchSequence(fuelSubsystem, 
-                       () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
+//    driverController.button(DriveConstants.TRIGGER)
+//         .whileTrue(new LaunchSequence(fuelSubsystem, 
+//                        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
      
     operatorController.R1()
         .whileTrue(new LaunchSequence(fuelSubsystem, 
@@ -189,15 +192,24 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
     operatorController.L2().whileTrue(new LaunchSequence(fuelSubsystem,
         () -> SmartDashboard.getNumber(SET_SHOT, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
     
-    operatorController.circle().whileTrue(new Intake(fuelSubsystem,
-        () -> SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
+    operatorController.circle().whileTrue(new Intake(intake,
+        () -> SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT)));
     
-   operatorController.triangle().whileTrue(new RunCommand(
+        
+   operatorController.triangle().whileTrue( new ParallelCommandGroup( 
+    new RunCommand(
+    () -> intake.spitItOut(
+        SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT)
+    ), 
+    intake),
+      new RunCommand(
     () -> fuelSubsystem.spitItOut(
         SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT)
     ), 
-    fuelSubsystem
-));
+    fuelSubsystem)
+   
+    )
+);
 
 
         

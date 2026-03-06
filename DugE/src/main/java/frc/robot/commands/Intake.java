@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
-
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
 
@@ -13,11 +13,11 @@ import frc.robot.subsystems.CANFuelSubsystem;
 public class Intake extends Command {
   /** Creates a new Intake. */
 
-  CANFuelSubsystem fuelSubsystem;
+  IntakeSubsystem intakeSubsystem;
   DoubleSupplier power;
-  public Intake(CANFuelSubsystem fuelSystem, DoubleSupplier im_power) {
-    addRequirements(fuelSystem);
-    this.fuelSubsystem = fuelSystem;
+  public Intake(IntakeSubsystem i_intake, DoubleSupplier im_power) {
+    addRequirements(i_intake);
+    this.intakeSubsystem = i_intake;
     power = im_power;
 
   }
@@ -26,7 +26,7 @@ public class Intake extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
-    fuelSubsystem
+    intakeSubsystem
         .setIntakeRoller(power.getAsDouble());
    //  default command should make this work
         // fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking feeder roller value", INDEXER_INTAKING_PERCENT));
@@ -36,14 +36,14 @@ public class Intake extends Command {
   // command doesn't require updating any values while running
   @Override
   public void execute() {
-        fuelSubsystem
+        intakeSubsystem
         .setIntakeRoller(power.getAsDouble());
   }
 
   // Called once the command ends or is interrupted. Stop the rollers
   @Override
   public void end(boolean interrupted) {
-    fuelSubsystem.setIntakeRoller(0);
+    intakeSubsystem.setIntakeRoller(0);
     //fuelSubsystem.setFeederRoller(0);
   }
 

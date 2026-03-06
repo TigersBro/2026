@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.CANFuelSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+
 import static frc.robot.Constants.FuelConstants.*;
 
 import java.util.function.DoubleSupplier;
@@ -17,11 +19,14 @@ public class LaunchAuto extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
+  IntakeSubsystem intake;
   DoubleSupplier distance;
-  public LaunchAuto(CANFuelSubsystem fuelSystem, DoubleSupplier i_distance) {
+  public LaunchAuto(CANFuelSubsystem fuelSystem, IntakeSubsystem i_intake, DoubleSupplier i_distance) {
     addRequirements(fuelSystem);
+    addRequirements(i_intake);
     this.fuelSubsystem = fuelSystem;
     distance = i_distance;
+    intake = i_intake;
   }
 
   // Called when the command is initially scheduled. Set the rollers to the
@@ -44,7 +49,7 @@ public class LaunchAuto extends Command {
   @Override
   public void end(boolean interrupted) {
     fuelSubsystem.setFeederRoller(0);
-    fuelSubsystem.setIntakeRoller(0);
+    intake.setIntakeRoller(0);
     fuelSubsystem.setLauncherRoller(0);
   }
 
