@@ -73,7 +73,7 @@ public final class Constants {
     public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
     public static final double INTAKE_EJECT_PERCENT = -0.6;
 
-    public static final double LAUNCHER_SHORT_SHOT =.3;
+    public static final double LAUNCHER_SHORT_SHOT =.2;
     public static final double LAUNCHER_IDLE =.1;
     public static final double LAUNCHER_LONG_SHOT =.7;
     public static final double LAUNCHER_SET_SHOT =.5;
