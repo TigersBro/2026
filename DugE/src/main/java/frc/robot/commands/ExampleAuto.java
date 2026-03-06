@@ -28,8 +28,14 @@ public class ExampleAuto extends SequentialCommandGroup {
     //new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(3),
     // Spin up the launcher for 1 second and then launch balls for 9 seconds, for a
     // total of 10 seconds
-    new Launch(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10));
 
+    // driveSubsystem.driveArcade(() -> 0.5, () -> 0).withTimeout(.25),
+    //     // Stop driving. This line uses the regular driveArcade command factory so it
+    //     // ends immediately after commanding the motors to stop
+    //     driveSubsystem.driveArcade(() -> 0, () -> 0),
+    new AutoDrive(driveSubsystem, -.5,0).withTimeout(.25),
+    new Launch(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10));
+    
 
   }
 }
