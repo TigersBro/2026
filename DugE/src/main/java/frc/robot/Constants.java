@@ -77,7 +77,7 @@ public final class Constants {
     public static final double LAUNCHER_IDLE =0;
     public static final double LAUNCHER_LONG_SHOT =.7;
     public static final double LAUNCHER_SET_SHOT =.5;
-    public static final double SPIN_UP_SECONDS = 0.4;
+    public static final double SPIN_UP_SECONDS = 0.6;
   
     public static final NavigableMap<Double, Double> DISTANCE_TO_VOLTAGE_MAP;
 

@@ -17,9 +17,9 @@ public class ExampleAuto extends SequentialCommandGroup {
   public ExampleAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ballSubsystem.setFeederRoller(-.3);
-    ballSubsystem.setIntakeRoller(.4);
-    ballSubsystem.setLauncherRoller(.2);
+    // ballSubsystem.setFeederRoller(-.3);
+    // ballSubsystem.setIntakeRoller(.4);
+    // ballSubsystem.setLauncherRoller(.2);
 
     addCommands(
     // Drive backwards for .25 seconds. The driveArcadeAuto command factory
@@ -33,8 +33,11 @@ public class ExampleAuto extends SequentialCommandGroup {
     //     // Stop driving. This line uses the regular driveArcade command factory so it
     //     // ends immediately after commanding the motors to stop
     //     driveSubsystem.driveArcade(() -> 0, () -> 0),
-    new AutoDrive(driveSubsystem, -.5,0).withTimeout(.25),
-    new Launch(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10));
+    new AutoDrive(driveSubsystem, .5,0).withTimeout(.6),
+    new LaunchAuto(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(3)//,
+   //new Zero(ballSubsystem).withTimeout(.5)
+    
+    );
     
 
   }
