@@ -66,18 +66,19 @@ public final class Constants {
 
     // All values likely need to be tuned based on your robot
     public static final double INDEXER_LAUNCHING = 0.6;
-    public static final double INDEXER_THE_BRAKE = -.2;
+    public static final double INDEXER_THE_BRAKE = -.3;
     public static final double INDEXER_SPIT = -.6;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
+    public static final double INTAKE_AUTO_PERCENT = 0.3;
     public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
     public static final double INTAKE_EJECT_PERCENT = -0.6;
 
-    public static final double LAUNCHER_SHORT_SHOT =.2;
+    public static final double LAUNCHER_SHORT_SHOT =.25;
     public static final double LAUNCHER_IDLE =0;
     public static final double LAUNCHER_LONG_SHOT =.7;
     public static final double LAUNCHER_SET_SHOT =.5;
-    public static final double SPIN_UP_SECONDS = 0.6;
+    public static final double SPIN_UP_SECONDS = 0.75;
   
     public static final NavigableMap<Double, Double> DISTANCE_TO_VOLTAGE_MAP;
 

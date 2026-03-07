@@ -28,7 +28,7 @@ import java.util.Map;
 
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ExampleAuto;
+import frc.robot.commands.Auto1;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.commands.TurnToPoint;
@@ -71,7 +71,7 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", new ExampleAuto(intake, driveSubsystem, fuelSubsystem));
+    autoChooser.setDefaultOption("Autonomous", new Auto1(intake, driveSubsystem, fuelSubsystem));
   }
 
   /**

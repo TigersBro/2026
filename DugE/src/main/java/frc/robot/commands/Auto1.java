@@ -15,9 +15,9 @@ import frc.robot.commands.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ExampleAuto extends SequentialCommandGroup {
+public class Auto1 extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public ExampleAuto(IntakeSubsystem i_intake, CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
+  public Auto1(IntakeSubsystem i_intake, CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // ballSubsystem.setFeederRoller(-.3);
@@ -39,7 +39,7 @@ public class ExampleAuto extends SequentialCommandGroup {
     new AutoDrive(driveSubsystem, .25,0).withTimeout(1),
 
     new ParallelCommandGroup( 
-      new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_INTAKING_PERCENT), 
+      new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_AUTO_PERCENT), 
       new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(8)//,
       
       )

@@ -18,6 +18,7 @@ public class Launch extends Command {
 
   CANFuelSubsystem fuelSubsystem;
   DoubleSupplier distance;
+
   public Launch(CANFuelSubsystem fuelSystem, DoubleSupplier i_distance) {
     addRequirements(fuelSystem);
     this.fuelSubsystem = fuelSystem;
@@ -28,10 +29,9 @@ public class Launch extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
+    fuelSubsystem.setLauncherRoller(distance.getAsDouble());
     fuelSubsystem
-        .setLauncherRoller(  distance.getAsDouble() ) ;
-//          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
+        .setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
@@ -39,10 +39,11 @@ public class Launch extends Command {
   @Override
   public void execute() {
 
-        fuelSubsystem
-        .setLauncherRoller(  distance.getAsDouble() ) ;
-//          SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
-    fuelSubsystem.setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
+    fuelSubsystem.setLauncherRoller(distance.getAsDouble());
+    // SmartDashboard.getNumber("Launching launcher roller value",
+    // LAUNCHING_LAUNCHER_PERCENT));
+    fuelSubsystem
+        .setFeederRoller(SmartDashboard.getNumber(Constants.DashboardConstants.INDEXER_LAUNCH, INDEXER_LAUNCHING));
 
   }
 

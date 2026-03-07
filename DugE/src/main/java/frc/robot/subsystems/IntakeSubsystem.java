@@ -19,10 +19,12 @@ public class IntakeSubsystem extends SubsystemBase {
   
   private final SparkMax Intake;
   private boolean isStalled;
+  private boolean isReset;
   private final Timer stallTimer = new Timer();
 
   public IntakeSubsystem() {
     isStalled = false;
+    isReset = false;
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     Intake = new SparkMax(Constants.FuelConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
     intakeConfig.smartCurrentLimit(Constants.FuelConstants.INDEXER_MOTOR_CURRENT_LIMIT);
@@ -52,9 +54,43 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     
+
+    if (isStalled)
+    {
+      checkIsReset();
+    }
+    else
+    {
+      checkIsStalled();
+    }
+
+  }
+  public void checkIsReset(){
+
+    if (isReset)
+    {
+      if ( stallTimer.get() > 10 )
+      {
+        isReset = false;
+        isStalled = false;
+      }
+    }
+    else
+    {
+      isReset = true;
+      stallTimer.stop();
+      stallTimer.reset();
+      stallTimer.start();
+    }
+
+
+  }
+  public void checkIsStalled() {
+
+
     double current = Intake.getOutputCurrent();
     double velocity = Math.abs(Intake.getEncoder().getVelocity());
-
+   
     if ( current >= Constants.FuelConstants.INDEXER_MOTOR_CURRENT_LIMIT && velocity < 10 )
     {
       stallTimer.start();
@@ -64,6 +100,12 @@ public class IntakeSubsystem extends SubsystemBase {
       stallTimer.reset();
     }
   
+
+    if (stallTimer.get() >= 1.5) {
+      isStalled = true;
+    } else {
+      isStalled = false;
+    }
 
     if (isStalled)
     {
