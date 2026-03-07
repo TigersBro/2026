@@ -36,11 +36,11 @@ public class ExampleAuto extends SequentialCommandGroup {
     //     // Stop driving. This line uses the regular driveArcade command factory so it
     //     // ends immediately after commanding the motors to stop
     //     driveSubsystem.driveArcade(() -> 0, () -> 0),
-    new AutoDrive(driveSubsystem, .5,0).withTimeout(.6),
+    new AutoDrive(driveSubsystem, .25,0).withTimeout(1),
 
     new ParallelCommandGroup( 
       new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_INTAKING_PERCENT), 
-      new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(3)//,
+      new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(8)//,
       
       )
 

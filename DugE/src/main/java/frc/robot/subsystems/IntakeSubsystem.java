@@ -10,7 +10,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants.*;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,8 +18,11 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   
   private final SparkMax Intake;
-  public IntakeSubsystem() {
+  private boolean isStalled;
+  private final Timer stallTimer = new Timer();
 
+  public IntakeSubsystem() {
+    isStalled = false;
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     Intake = new SparkMax(Constants.FuelConstants.INTAKE_MOTOR_ID, MotorType.kBrushless);
     intakeConfig.smartCurrentLimit(Constants.FuelConstants.INDEXER_MOTOR_CURRENT_LIMIT);
@@ -36,11 +39,36 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setIntakeRoller(double power)
   {
+    if( isStalled)
+    {
+      Intake.set(0);  
+    }
+    else{
+
     Intake.set(power);
+    }
   }
 
   @Override
   public void periodic() {
+    
+    double current = Intake.getOutputCurrent();
+    double velocity = Math.abs(Intake.getEncoder().getVelocity());
+
+    if ( current >= Constants.FuelConstants.INDEXER_MOTOR_CURRENT_LIMIT && velocity < 10 )
+    {
+      stallTimer.start();
+    }
+    else{
+      stallTimer.stop();
+      stallTimer.reset();
+    }
+  
+
+    if (isStalled)
+    {
+      Intake.set(0);
+    }
     // This method will be called once per scheduler run
   }
 }
