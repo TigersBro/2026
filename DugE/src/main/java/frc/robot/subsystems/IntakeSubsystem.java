@@ -36,33 +36,33 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void spitItOut(double im_power)
   {
-    setIntakeRoller( im_power );
+    setIntakeRoller( im_power *-1 );
   }
 
   public void setIntakeRoller(double power)
   {
-    if( isStalled)
+   // if( isStalled)
     {
       Intake.set(0);  
     }
-    else{
+    // else{
 
-    Intake.set(power);
-    }
+    // Intake.set(power *-1);
+    // }
   }
 
   @Override
   public void periodic() {
     
 
-    if (isStalled)
-    {
-      checkIsReset();
-    }
-    else
-    {
-      checkIsStalled();
-    }
+    // if (isStalled)
+    // {
+    //   checkIsReset();
+    // }
+    // else
+    // {
+    //   checkIsStalled();
+    // }
 
   }
   public void checkIsReset(){
@@ -104,7 +104,7 @@ public class IntakeSubsystem extends SubsystemBase {
     if (stallTimer.get() >= 1.5) {
       isStalled = true;
     } else {
-      isStalled = false;
+      isStalled = true;
     }
 
     if (isStalled)

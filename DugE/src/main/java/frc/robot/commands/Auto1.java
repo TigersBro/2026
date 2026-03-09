@@ -40,7 +40,7 @@ public class Auto1 extends SequentialCommandGroup {
 
     new ParallelCommandGroup( 
       new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_AUTO_PERCENT), 
-      new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(8)//,
+      new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10)//,
       
       )
 
