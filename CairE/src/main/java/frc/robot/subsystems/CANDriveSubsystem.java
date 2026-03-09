@@ -1,0 +1,230 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
+import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.LimelightHelpers;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import static frc.robot.Constants.DriveConstants.*;
+
+@Logged
+
+public class CANDriveSubsystem extends SubsystemBase {
+
+  private final SparkMax leftLeader;
+  private final SparkMax leftFollower;
+  private final SparkMax rightLeader;
+  private final SparkMax rightFollower;
+  // private final ADIS16470_IMU m_gyro = new ADIS16470_IMU(); Need to figure out
+  // which gyro we are using.
+  private boolean reverseRotation;
+  private boolean reverseFront;
+  private boolean speedToggle;
+
+  private final RelativeEncoder leftEncoder;
+  private final RelativeEncoder rightEncoder;
+  private final ADIS16470_IMU gyro = new ADIS16470_IMU();
+
+  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(kTrackWidth);
+
+  private DifferentialDrivePoseEstimator poseEstimator ;
+
+  private final DifferentialDrive drive;
+
+  public CANDriveSubsystem() {
+    
+
+    // create brushed motors for drive
+    leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushless);
+    leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushless);
+    rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushless);
+    rightFollower = new SparkMax(RIGHT_FOLLOWER_ID, MotorType.kBrushless);
+
+    // set up differential drive class
+    drive = new DifferentialDrive(leftLeader, rightLeader);
+
+    // Set can timeout. Because this project only sets parameters once on
+    // construction, the timeout can be long without blocking robot operation. Code
+    // which sets or gets parameters during operation may need a shorter timeout.
+    leftLeader.setCANTimeout(250);
+    rightLeader.setCANTimeout(250);
+    leftFollower.setCANTimeout(250);
+    rightFollower.setCANTimeout(250);
+
+    // Create the configuration to apply to motors. Voltage compensation
+    // helps the robot perform more similarly on different
+    // battery voltages (at the cost of a little bit of top speed on a fully charged
+    // battery). The current limit helps prevent tripping
+    // breakers.
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.voltageCompensation(12);
+    config.smartCurrentLimit(DRIVE_MOTOR_CURRENT_LIMIT);
+    config.idleMode(IdleMode.kBrake);
+
+    // Set configuration to follow each leader and then apply it to corresponding
+    // follower. Resetting in case a new controller is swapped
+    // in and persisting in case of a controller reset due to breaker trip
+    config.follow(leftLeader);
+    leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    config.follow(rightLeader);
+    rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    // Remove following, then apply config to right leader
+    config.disableFollowerMode();
+    rightLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    // Set config to inverted and then apply to left leader. Set Left side inverted
+    // so that postive values drive both sides forward
+    config.inverted(true);
+    leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    leftEncoder = leftLeader.getEncoder();
+    rightEncoder = rightLeader.getEncoder();
+
+    poseEstimator = new DifferentialDrivePoseEstimator( kinematics,
+                                                          getGyroRotation(),
+                                                          getLeftDistanceMeters(),
+                                                          getRightDistanceMeters(),
+                                                          new Pose2d());
+  }
+
+  @Override
+  public void periodic() {
+
+    poseEstimator.update(
+        getGyroRotation(),
+        getLeftDistanceMeters(),
+        getRightDistanceMeters());
+
+    if (LimelightHelpers.getTV("limelight")) {
+
+      Pose2d botPose = LimelightHelpers.getBotPose2d_wpiBlue("limelight");
+
+      double timestamp = Timer.getFPGATimestamp() -
+          (LimelightHelpers.getLatency_Capture("limelight") / 1000.0);
+
+      poseEstimator.addVisionMeasurement(
+          botPose,
+          timestamp);
+    }
+
+  }
+
+  public void driveArcade(double xSpeed, double zRotation, boolean squared) {
+    double zRotationToUse;
+    zRotationToUse = zRotation * .7;
+    xSpeed = xSpeed * .8;
+    if (reverseFront == true) {
+      xSpeed = xSpeed * -1;
+    }
+    if (reverseRotation == true) {
+      zRotationToUse = zRotation * -1;
+    }
+
+    double deadband;
+    deadband = zRotation;
+    deadband = Math.abs(deadband);
+    if (deadband < .2) {
+      zRotationToUse = 0;
+    }
+
+    if (speedToggle == true) {
+      xSpeed = xSpeed * DriveConstants.SLOW_MODE_MOVE;
+      zRotationToUse = zRotationToUse * DriveConstants.SLOW_MODE_TURN;
+    } else {
+      zRotationToUse = zRotationToUse * Constants.DriveConstants.TURN_MULTIPLIER;
+    }
+    drive.arcadeDrive(xSpeed, zRotationToUse, squared);
+  }
+
+  public void speedToggle() {
+    if (speedToggle == true)
+      speedToggle = false;
+    else
+      speedToggle = true;
+
+  }
+
+  public Command driveArcadeSupplier(DoubleSupplier xSpeed, DoubleSupplier zRotation, BooleanSupplier squared) {
+    return this.run(
+        () -> drive.arcadeDrive(xSpeed.getAsDouble(), zRotation.getAsDouble(), squared.getAsBoolean()));
+  }
+
+  public Rotation2d getGyroRotation() {
+
+    return Rotation2d.fromDegrees(gyro.getAngle());
+  }
+
+  public Rotation2d getHeading2d() {
+    return Rotation2d.fromDegrees(gyro.getAngle());
+  }
+
+  public Pose2d getPose() {
+    return poseEstimator.getEstimatedPosition();
+  }
+
+  public double getLeftDistanceMeters() {
+    // TODO get left encoder distance.
+    return getEncoderDistance(leftEncoder);
+  }
+
+  public double getRightDistanceMeters() {
+    // TODO get right encoder distance.
+    return getEncoderDistance(rightEncoder);
+  }
+
+  public double getEncoderDistance(RelativeEncoder encoder) {
+    double wheelDiameter = 0.1524; // 6 inch wheel in meters
+    double gearRatio = 8.46; // TODO Verify this is the correct ratio
+    double positionMeters = (encoder.getPosition() / gearRatio) *
+        (Math.PI * wheelDiameter);
+   //double positionMeters = 0.0; 
+   return positionMeters;
+  }
+
+  public void reverseRotation() {
+    if (reverseRotation == true)
+      reverseRotation = false;
+    else
+      reverseRotation = true;
+  }
+
+  public void reverseFront() {
+    reverseRotation();
+    if (reverseFront == true)
+      reverseFront = false;
+    else
+      reverseFront = true;
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drive.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public void zeroHeading() {
+    gyro.reset();
+  }
+
+}
