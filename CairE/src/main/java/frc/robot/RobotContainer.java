@@ -111,7 +111,6 @@ public class RobotContainer {
 
 
 
-    // TODO operatorController.button()
 
     SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -119,17 +118,6 @@ public class RobotContainer {
     //     .getLayout("Controls", BuiltInWidgets.kNetworkTables)
     //     .withSize(3, 6)
     //     .withProperties(Map.of("Label position", "LEFT"));
-
-    // layout.addString("SHORT SHOT", () -> "R1");
-    // layout.addString("SET SHOT", () -> "L2");
-    // layout.addString("DRIVE SLOW", () -> "THUMB TRIGGER");
-    // layout.addString("REVERSE ROTATION", () -> "11");
-    // layout.addString("FRONT TO BACK", () -> "4");
-    // layout.addString("TURN TO BLUE", () -> "9");
-    // layout.addString("TURN TO RED", () -> "10");
-    // layout.addString("LONG SHOT", () -> "L1");
-    // layout.addString("INTAKE", () -> "CIRCLE");
-    // layout.addString("SPIT IT OUT", () -> "TRIANGLE");
 
     // 1. Get the default NetworkTable instance
 NetworkTableInstance inst = NetworkTableInstance.getDefault();
