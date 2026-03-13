@@ -139,14 +139,12 @@ NetworkTable controlsTable = inst.getTable("Controls");
 
 // 3. Put data into the subtable
 // These will appear as children under the "Controls" node in the tree
-controlsTable.getEntry("SHORT SHOT").setString("R1");
 controlsTable.getEntry("SET SHOT").setString("L2");
 controlsTable.getEntry("DRIVE SLOW").setString("THUMB TRIGGER");
 controlsTable.getEntry("REVERSE ROTATION").setString("11");
 controlsTable.getEntry("FRONT TO BACK").setString("4");
 controlsTable.getEntry("TURN TO BLUE").setString("9");
 controlsTable.getEntry("TURN TO RED").setString("10");
-controlsTable.getEntry("LONG SHOT").setString("L1");
 controlsTable.getEntry("INTAKE").setString("CIRCLE");
 controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 
@@ -157,62 +155,16 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
     SmartDashboard.putNumber(INDEXER, Constants.FuelConstants.INDEXER_THE_BRAKE);
     SmartDashboard.putNumber(INDEXER_LAUNCH, Constants.FuelConstants.INDEXER_LAUNCHING);
     SmartDashboard.putNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT);
-    SmartDashboard.putNumber(SHORT_SHOT, Constants.FuelConstants.LAUNCHER_SHORT_SHOT);
-    SmartDashboard.putNumber(LONG_SHOT, Constants.FuelConstants.LAUNCHER_LONG_SHOT);
-    SmartDashboard.putNumber(SET_SHOT, Constants.FuelConstants.LAUNCHER_SET_SHOT);
     SmartDashboard.putNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT);
     SmartDashboard.putNumber(LAUNCHER_IDLE, Constants.FuelConstants.LAUNCHER_IDLE);
     
 
-    driverController.button(DriveConstants.THUMB_TRIGGER)
-        .toggleOnTrue(new InstantCommand(() -> driveSubsystem.speedToggle()));
-
-    driverController.button(DriveConstants.DRIVE_REVERSE_ROTATION_BUTTON_ID)
-        .toggleOnTrue(new InstantCommand(() -> driveSubsystem.reverseRotation()));
-    
-    driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID)
-        .toggleOnTrue(new InstantCommand(() -> driveSubsystem.reverseFront()));
-    driverController.button(DriveConstants.TURN_TO_BLUE)
-        .whileTrue(new TurnToPoint(driveSubsystem, Constants.FieldConstants.blueHub));
-    driverController.button(DriveConstants.TURN_TO_RED)
-        .whileTrue(new TurnToPoint(driveSubsystem, Constants.FieldConstants.redHub));
-
+   
     
 //    driverController.button(DriveConstants.TRIGGER)
 //         .whileTrue(new LaunchSequence(fuelSubsystem, 
 //                        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
-     
-    operatorController.R1()
-        .whileTrue(new LaunchSequence(fuelSubsystem, 
-        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
-    
-    operatorController.L1().whileTrue(new LaunchSequence(fuelSubsystem,
-        () ->  SmartDashboard.getNumber(LONG_SHOT, Constants.FuelConstants.LAUNCHER_LONG_SHOT)));
-    
-    operatorController.L2().whileTrue(new LaunchSequence(fuelSubsystem,
-        () -> SmartDashboard.getNumber(SET_SHOT, Constants.FuelConstants.LAUNCHER_SET_SHOT)));
-    
-    operatorController.circle().whileTrue(new Intake(intake,
-        () -> SmartDashboard.getNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT)));
-    
-        
-   operatorController.triangle().whileTrue( new ParallelCommandGroup( 
-    new RunCommand(
-    () -> intake.spitItOut(
-        SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT)
-    ), 
-    intake),
-      new RunCommand(
-    () -> fuelSubsystem.spitItOut(
-        SmartDashboard.getNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT)
-    ), 
-    fuelSubsystem)
-   
-    )
-);
 
-
-        
     fuelSubsystem.setDefaultCommand(fuelSubsystem
         .run(() -> fuelSubsystem.stopStuffFromGoingInTheShooter(Constants.FuelConstants.INDEXER_THE_BRAKE)));
     /// If this doesn't work....try commenting in the next line
