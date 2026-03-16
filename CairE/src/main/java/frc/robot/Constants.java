@@ -9,6 +9,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.subsystems.upperIntake;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -53,77 +54,6 @@ public final class Constants {
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
   }
 
-  public static final class FuelConstants {
-    // Motor controller IDs for Fuel Mechanism motors
-    public static final int LEFT_INTAKE_LAUNCHER_MOTOR_ID = 9;
-    public static final int RIGHT_INTAKE_LAUNCHER_MOTOR_ID = 10;
-    public static final int INTAKE_MOTOR_ID = 7;
-    public static final int INDEXER_MOTOR_ID = 8;
-
-    // Current limit for fuel mechanism motors.
-    public static final int INDEXER_MOTOR_CURRENT_LIMIT = 40;
-    public static final int LAUNCHER_MOTOR_CURRENT_LIMIT = 40;
-
-    // All values likely need to be tuned based on your robot
-    public static final double INDEXER_LAUNCHING = 0.6;
-    public static final double INDEXER_THE_BRAKE = -.3;
-    public static final double INDEXER_SPIT = -.6;
-
-    public static final double INTAKE_INTAKING_PERCENT = 0.6;
-    public static final double INTAKE_AUTO_PERCENT = 0.3;
-    public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
-    public static final double INTAKE_EJECT_PERCENT = -0.6;
-
-    public static final double LAUNCHER_SHORT_SHOT =.25;
-    public static final double LAUNCHER_IDLE =0;
-    public static final double LAUNCHER_LONG_SHOT =.7;
-    public static final double LAUNCHER_SET_SHOT =.5;
-    public static final double SPIN_UP_SECONDS = 0.75;
-  
-    public static final NavigableMap<Double, Double> DISTANCE_TO_VOLTAGE_MAP;
-
-    static {
-        TreeMap<Double, Double> map = new TreeMap<>();
-        // Distance (Key) -> Voltage (Value)
-        map.put(.5,1.0);
-        map.put(1.0,1.2);
-        map.put(1.5,1.5);
-        map.put(2.0,1.7);
-        map.put(2.5,1.9);
-        map.put(3.0,2.0);
-        map.put(3.5,2.2);
-        map.put(4.0,2.4);
-        map.put(4.5,2.6);
-        map.put(5.0,2.8);
-        map.put(5.5,3.0);
-        map.put(6.0,3.2);
-        map.put(6.5,3.4);
-        map.put(7.0,3.6);
-        map.put(7.5,3.8);
-        map.put(8.0,4.0);
-        map.put(8.5,4.2);
-        map.put(9.0,4.4);
-        map.put(9.5,4.6);
-        map.put(10.0,4.8);
-        map.put(10.5,5.0);
-        map.put(11.0,5.2);
-        map.put(11.5,5.4);
-
-        DISTANCE_TO_VOLTAGE_MAP = Collections.unmodifiableNavigableMap(map);
-    }
-  }
-
-  public static final class ClimbConstants {
-    // Motor controller IDs for Climb motor
-    public static final int CLIMBER_MOTOR_ID = 9;
-
-    // Current limit for climb motor
-    public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
-    // Percentage to power the motor both up and down
-    public static final double CLIMBER_MOTOR_DOWN_PERCENT = -0.8;
-    public static final double CLIMBER_MOTOR_UP_PERCENT = 0.8;
-  }
-
   public static final class OperatorConstants {
 
     // Port constants for driver and operator controllers. These should match the
@@ -141,21 +71,32 @@ public final class Constants {
     public static final int TANK_CONTROLLER_PORT2 = 2;
   
   } 
+
+  public static final class IntakeConstants{
+
+    public static final int upperIntakeID = 5;
+    public static final int lowerIntakeID = 6;
+
+    public static final double INTAKE_UPPER_PERCENT = .5;
+    public static final double INTAKE_LOWER_PERCENT = .5;
+    public static final double EJECT_UPPER_PERCENT = .5;
+    public static final double EJECT_LOWER_PERCENT = .5;
+
+    public static final int INDEXER_MOTOR_CURRENT_LIMIT = 40;
+
+
+  }
+
   public static final class FieldConstants{
-    
 
     public static final Translation2d blueHub = new Translation2d(5.15, 4.11);
     public static final Translation2d redHub = new Translation2d(12.38, 4.11);
     
   }
   public static final class DashboardConstants{
-    public static final String SET_SHOT = "Set Shot - L2";
-    public static final String SHORT_SHOT = "Short Shot - R1";
-    public static final String LONG_SHOT = "Long Shot - L1";
-    public static final String INTAKE = "Intake - Circle";
-    public static final String SPIT_IT_OUT = "Spit it Out - Triangle";
-    public static final String INDEXER = "Indexer Prelaunch";
-    public static final String INDEXER_LAUNCH = "Indexer Launching";
-    public static final String LAUNCHER_IDLE = "Launcher Idle Speed";
+    public static final String INTAKE_UPPER = "Intake Upper - Circle";
+    public static final String INTAKE_LOWER = "Intake Lower - Circle";
+    public static final String EJECT_UPPER = "Eject Upper - Triangle";
+    public static final String EJECT_LOWER = "Eject Lower - Triangle";
   }
 }

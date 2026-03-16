@@ -8,16 +8,15 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.commands.Intake;
+import frc.robot.subsystems.lowerIntake;
+import frc.robot.subsystems.upperIntake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto1 extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public Auto1(IntakeSubsystem i_intake, CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
+  public Auto1(lowerIntake i_lower, CANDriveSubsystem driveSubsystem, upperIntake i_upper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // ballSubsystem.setFeederRoller(-.3);
@@ -36,13 +35,13 @@ public class Auto1 extends SequentialCommandGroup {
     //     // Stop driving. This line uses the regular driveArcade command factory so it
     //     // ends immediately after commanding the motors to stop
     //     driveSubsystem.driveArcade(() -> 0, () -> 0),
-    new AutoDrive(driveSubsystem, .25,0).withTimeout(1),
+    new AutoDrive(driveSubsystem, .25,0).withTimeout(1)
 
-    new ParallelCommandGroup( 
-      new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_AUTO_PERCENT), 
-      new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10)//,
+   // new ParallelCommandGroup( 
+   // new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_AUTO_PERCENT), 
+   // new LaunchSequence(ballSubsystem, () -> Constants.FuelConstants.LAUNCHER_SHORT_SHOT).withTimeout(10)//,
       
-      )
+   //   )
 
    //new Zero(ballSubsystem).withTimeout(.5)
     

@@ -7,34 +7,22 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+//67 
 
-import static frc.robot.Constants.FuelConstants.LAUNCHER_SHORT_SHOT;
 import static frc.robot.Constants.OperatorConstants.*;
 import static frc.robot.Constants.DashboardConstants.*;
 
-import java.util.Map;
-
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Auto1;
-import frc.robot.commands.Intake;
-import frc.robot.commands.LaunchSequence;
-import frc.robot.commands.TurnToPoint;
 import frc.robot.subsystems.CANDriveSubsystem;
-import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.lowerIntake;
+import frc.robot.subsystems.upperIntake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -46,8 +34,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
-  private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final upperIntake upperIntake = new upperIntake();
+  private final lowerIntake lowerIntake = new lowerIntake();
   // private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   // TODO add when we have a climber
 
@@ -71,7 +59,7 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", new Auto1(intake, driveSubsystem, fuelSubsystem));
+    autoChooser.setDefaultOption("Autonomous", new Auto1(lowerIntake, driveSubsystem, upperIntake));
   }
 
   /**
@@ -127,7 +115,6 @@ NetworkTable controlsTable = inst.getTable("Controls");
 
 // 3. Put data into the subtable
 // These will appear as children under the "Controls" node in the tree
-controlsTable.getEntry("SET SHOT").setString("L2");
 controlsTable.getEntry("DRIVE SLOW").setString("THUMB TRIGGER");
 controlsTable.getEntry("REVERSE ROTATION").setString("11");
 controlsTable.getEntry("FRONT TO BACK").setString("4");
@@ -136,15 +123,12 @@ controlsTable.getEntry("TURN TO RED").setString("10");
 controlsTable.getEntry("INTAKE").setString("CIRCLE");
 controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 
-
-
-    SmartDashboard.putData("Short Shot", new  LaunchSequence(fuelSubsystem, () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
     
-    SmartDashboard.putNumber(INDEXER, Constants.FuelConstants.INDEXER_THE_BRAKE);
-    SmartDashboard.putNumber(INDEXER_LAUNCH, Constants.FuelConstants.INDEXER_LAUNCHING);
-    SmartDashboard.putNumber(INTAKE, Constants.FuelConstants.INTAKE_INTAKING_PERCENT);
-    SmartDashboard.putNumber(SPIT_IT_OUT, Constants.FuelConstants.INTAKE_EJECT_PERCENT);
-    SmartDashboard.putNumber(LAUNCHER_IDLE, Constants.FuelConstants.LAUNCHER_IDLE);
+    SmartDashboard.putNumber(INTAKE_UPPER, Constants.IntakeConstants.INTAKE_UPPER_PERCENT);
+    SmartDashboard.putNumber(INTAKE_LOWER, Constants.IntakeConstants.INTAKE_LOWER_PERCENT);
+
+    SmartDashboard.putNumber(EJECT_UPPER, Constants.IntakeConstants.EJECT_UPPER_PERCENT);
+    SmartDashboard.putNumber(EJECT_LOWER, Constants.IntakeConstants.EJECT_LOWER_PERCENT);
     
 
    
@@ -153,8 +137,7 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 //         .whileTrue(new LaunchSequence(fuelSubsystem, 
 //                        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
 
-    fuelSubsystem.setDefaultCommand(fuelSubsystem
-        .run(() -> fuelSubsystem.stopStuffFromGoingInTheShooter(Constants.FuelConstants.INDEXER_THE_BRAKE)));
+   
     /// If this doesn't work....try commenting in the next line
     driveSubsystem.setDefaultCommand(driveSubsystem.run(() -> driveSubsystem.driveArcade(
         driverController.getY(),
