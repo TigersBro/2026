@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,7 +57,25 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    
+    if (!Preferences.containsKey("UpperIntakeSpeed")) {
+    Preferences.setDouble("UpperIntakeSpeed", 0.8);
+  }
+    if (!Preferences.containsKey("LowerIntakeSpeed")) {
+    Preferences.setDouble("LowerIntakeSpeed", 0.7);
+  }
+     if (!Preferences.containsKey("UpperEjectSpeed")) {
+    Preferences.setDouble("UpperEjectSpeed", 0.8);
+  }
+    if (!Preferences.containsKey("LowerEjectSpeed")) {
+    Preferences.setDouble("LowerEjectSpeed", 0.7);
+  }
+    
+    
     configureBindings();
+
+    
+
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -86,38 +105,7 @@ public class RobotContainer {
     .whileTrue(new EjectCommand(upperIntake, lowerIntake));
 
 
-
-    // While the left bumper on operator controller is held, intake Fuel
-    //// operatorController.leftBumper().whileTrue(new Intake(fuelSubsystem));
-    // While the right bumper on the operator controller is held, spin up for 1
-    // second, then launch fuel. When the button is released, stop.
-    ///// operatorController.rightBumper().whileTrue(new
-    // LaunchSequence(fuelSubsystem));
-    // While the A button is held on the operator controller, eject fuel back out
-    // the intake
-    //// operatorController.a().whileTrue(new Eject(fuelSubsystem));
-    //// operatorController.povDown().whileTrue(new ClimbDown(climberSubsystem));
-    //// operatorController.pov .whileTrue(new ClimbUp(climberSubsystem));
-    //// operatorController.getPOV(DRIVER_CONTROLLER_PORT)
-    // Set the default command for the drive subsystem to the command provided by
-    // factory with the values provided by the joystick axes on the driver
-    // controller. The Y axis of the controller is inverted so that pushing the
-    // stick away from you (a negative value) drives the robot forwards (a positive
-    // value)
-    //// driveSubsystem.setDefaultCommand(new arcade(driveSubsystem,
-    //// driverController));
-
-    // driveSubsystem.driveArcade(DRIVER_CONTROLLER_PORT, ROTATION_SCALING, false);
-
-
-
-
     SmartDashboard.putData("Auto Mode", autoChooser);
-
-    // var layout = Shuffleboard.getTab("Controls")
-    //     .getLayout("Controls", BuiltInWidgets.kNetworkTables)
-    //     .withSize(3, 6)
-    //     .withProperties(Map.of("Label position", "LEFT"));
 
     // 1. Get the default NetworkTable instance
 NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -136,18 +124,12 @@ controlsTable.getEntry("INTAKE").setString("CIRCLE");
 controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
 
     
-    SmartDashboard.putNumber(INTAKE_UPPER, Constants.IntakeConstants.INTAKE_UPPER_PERCENT);
-    SmartDashboard.putNumber(INTAKE_LOWER, Constants.IntakeConstants.INTAKE_LOWER_PERCENT);
+   // SmartDashboard.putNumber(INTAKE_UPPER, Constants.IntakeConstants.INTAKE_UPPER_PERCENT);
+   // SmartDashboard.putNumber(INTAKE_LOWER, Constants.IntakeConstants.INTAKE_LOWER_PERCENT);
 
-    SmartDashboard.putNumber(EJECT_UPPER, Constants.IntakeConstants.EJECT_UPPER_PERCENT);
-    SmartDashboard.putNumber(EJECT_LOWER, Constants.IntakeConstants.EJECT_LOWER_PERCENT);
+   // SmartDashboard.putNumber(EJECT_UPPER, Constants.IntakeConstants.EJECT_UPPER_PERCENT);
+   // SmartDashboard.putNumber(EJECT_LOWER, Constants.IntakeConstants.EJECT_LOWER_PERCENT);
     
-
-   
-    
-//    driverController.button(DriveConstants.TRIGGER)
-//         .whileTrue(new LaunchSequence(fuelSubsystem, 
-//                        () -> SmartDashboard.getNumber(SHORT_SHOT, LAUNCHER_SHORT_SHOT)));
 
    
     /// If this doesn't work....try commenting in the next line

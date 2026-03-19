@@ -10,20 +10,23 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import frc.robot.Constants.IntakeConstants;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.math.filter.SlewRateLimiter; 
 
 public class lowerIntake extends SubsystemBase {
   /** Creates a new lowerIntake. */
   private boolean isStalled;
-  private boolean isReset;
-    private final SparkMax Intake;
+  private final Timer m_stallTimer = new Timer(); // Timer to track stall duration
+  private final SparkMax Intake;
+  private final SlewRateLimiter m_filter = new SlewRateLimiter(IntakeConstants.intakeSlew); 
 
 
   public lowerIntake() {
 
     isStalled = false;
-    isReset = false;
     SparkMaxConfig intakeConfig = new SparkMaxConfig();
     Intake = new SparkMax(Constants.IntakeConstants.lowerIntakeID, MotorType.kBrushless);
     intakeConfig.smartCurrentLimit(Constants.IntakeConstants.INDEXER_MOTOR_CURRENT_LIMIT);
@@ -53,17 +56,28 @@ public class lowerIntake extends SubsystemBase {
 
   public void setIntakeRoller(double power)
   {
-   // if( isStalled)
-    {
-      Intake.set(0);  
-    }
-    // else{
-
-    // Intake.set(power *-1);
-    // }
+    // 2. Stall Protection: Only allow power if NOT stalled
+    if (isStalled) {
+      Intake.set(0);
+    } else {
+      double filteredPower = m_filter.calculate(power);
+      Intake.set(filteredPower);    }
   }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double current = Intake.getOutputCurrent();
+    double velocity = Intake.getEncoder().getVelocity();
+
+    if (current > 35.0 && Math.abs(velocity) < 10) {
+      isStalled = true;
+      m_stallTimer.reset(); // Start counting the 1.5 seconds NOW
+    } else if (current < 5.0) {
+      // Auto-reset stall once current drops (driver released button)
+      isStalled = false;
+    }
+     if (isStalled && m_stallTimer.hasElapsed(1.5)) {
+      isStalled = false;
+    }
   }
 }

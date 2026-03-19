@@ -11,9 +11,9 @@
         "vgap": 1.0,
         "titleType": 0,
         "tiles": {
-          "8,2": {
+          "0,0": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -24,15 +24,15 @@
               "_showGlyph": false
             }
           },
-          "3,1": {
+          "2,2": {
             "size": [
               3,
               1
             ],
             "content": {
               "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Intake - Circle",
-              "_title": "Intake - Circle",
+              "_source0": "network_table:///Preferences/LowerEjectSpeed",
+              "_title": "Lower Eject",
               "_glyph": 148,
               "_showGlyph": false,
               "Slider Settings/Min": -1.0,
@@ -42,15 +42,15 @@
               "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "0,0": {
+          "5,2": {
             "size": [
               3,
               1
             ],
             "content": {
               "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Short Shot - R1",
-              "_title": "Short Shot - R1",
+              "_source0": "network_table:///Preferences/LowerIntakeSpeed",
+              "_title": "Lower Intake",
               "_glyph": 148,
               "_showGlyph": false,
               "Slider Settings/Min": -1.0,
@@ -60,15 +60,15 @@
               "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "0,2": {
+          "2,1": {
             "size": [
               3,
               1
             ],
             "content": {
               "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Long Shot - L1",
-              "_title": "Long Shot - L1",
+              "_source0": "network_table:///Preferences/UpperEjectSpeed",
+              "_title": "Upper Eject",
               "_glyph": 148,
               "_showGlyph": false,
               "Slider Settings/Min": -1.0,
@@ -78,113 +78,15 @@
               "Visuals/Orientation": "HORIZONTAL"
             }
           },
-          "0,1": {
+          "5,1": {
             "size": [
               3,
               1
             ],
             "content": {
               "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Set Shot - L2",
-              "_title": "Set Shot - L2",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625,
-              "Visuals/Display value": true,
-              "Visuals/Orientation": "HORIZONTAL"
-            }
-          },
-          "3,2": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Spit it Out - Triangle",
-              "_title": "Spit it Out - Triangle",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625,
-              "Visuals/Display value": true,
-              "Visuals/Orientation": "HORIZONTAL"
-            }
-          },
-          "3,0": {
-            "size": [
-              3,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Launcher Idle Speed",
-              "_title": "Launcher Idle Speed",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625,
-              "Visuals/Display value": true,
-              "Visuals/Orientation": "HORIZONTAL"
-            }
-          },
-          "6,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Left Launcher/Velocity",
-              "_title": "Launcher Velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/Short Shot",
-              "_title": "Short Shot",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Indexer Prelaunch",
-              "_title": "Indexer Prelaunch",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Slider Settings/Min": -1.0,
-              "Slider Settings/Max": 1.0,
-              "Slider Settings/Block increment": 0.0625,
-              "Visuals/Display value": true,
-              "Visuals/Orientation": "HORIZONTAL"
-            }
-          },
-          "6,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Number Slider",
-              "_source0": "network_table:///SmartDashboard/Indexer Launching",
-              "_title": "Indexer Launching",
+              "_source0": "network_table:///Preferences/UpperIntakeSpeed",
+              "_title": "Upper Intake",
               "_glyph": 148,
               "_showGlyph": false,
               "Slider Settings/Min": -1.0,

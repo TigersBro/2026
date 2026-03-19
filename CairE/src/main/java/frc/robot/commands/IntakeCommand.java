@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.upperIntake;
 import frc.robot.subsystems.lowerIntake;
@@ -17,8 +18,12 @@ public class IntakeCommand extends Command {
 
   @Override
   public void execute() {
-    m_upper.Intake(0.8); // Pull in
-    m_lower.Intake(0.8);
+    // Fetch live values from the robot's memory
+    double upperSpeed = Preferences.getDouble("UpperIntakeSpeed", 0.8);
+    double lowerSpeed = Preferences.getDouble("LowerIntakeSpeed", 0.7);
+
+    m_upper.Intake(upperSpeed);
+    m_lower.Intake(lowerSpeed);
   }
 
   @Override

@@ -1,0 +1,35 @@
+[
+  {
+    "name": "/Preferences/UpperIntakeSpeed",
+    "type": "double",
+    "value": 0.8028169014084501,
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
+  },
+  {
+    "name": "/Preferences/LowerIntakeSpeed",
+    "type": "double",
+    "value": 0.7,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/UpperEjectSpeed",
+    "type": "double",
+    "value": 0.8,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/LowerEjectSpeed",
+    "type": "double",
+    "value": 0.7,
+    "properties": {
+      "persistent": true
+    }
+  }
+]

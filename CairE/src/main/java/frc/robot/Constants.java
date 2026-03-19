@@ -84,6 +84,8 @@ public final class Constants {
 
     public static final int INDEXER_MOTOR_CURRENT_LIMIT = 40;
 
+    public static final double intakeSlew = 3.0;
+
 
   }
 

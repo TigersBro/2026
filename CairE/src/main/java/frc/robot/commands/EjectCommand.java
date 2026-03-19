@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.upperIntake;
 import frc.robot.subsystems.lowerIntake;
@@ -16,8 +17,11 @@ public class EjectCommand extends Command {
 
   @Override
   public void execute() {
-    m_upper.Eject(0.8); // Push out
-    m_lower.Eject(0.8);
+    double upperSpeed = Preferences.getDouble("UpperEjectSpeed", 0.8);
+    double lowerSpeed = Preferences.getDouble("LowerEjectSpeed", 0.7);
+
+    m_upper.Intake(upperSpeed);
+    m_lower.Intake(lowerSpeed);
   }
 
   @Override
