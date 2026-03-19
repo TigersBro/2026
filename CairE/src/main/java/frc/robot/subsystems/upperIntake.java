@@ -37,6 +37,27 @@ public class upperIntake extends SubsystemBase {
 
   
 
+  public void Eject(double im_power)
+  {
+    setIntakeRoller( im_power *-1 );
+  }
+
+  public void Intake(double im_power)
+  {
+    setIntakeRoller( im_power );
+  }
+
+  public void setIntakeRoller(double power)
+  {
+   // if( isStalled)
+    {
+      Intake.set(0);  
+    }
+    // else{
+
+    // Intake.set(power *-1);
+    // }
+  }
 
   @Override
   public void periodic() {

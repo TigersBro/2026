@@ -36,7 +36,27 @@ public class lowerIntake extends SubsystemBase {
 
 
   }
+  public void Eject(double im_power)
+  {
+    setIntakeRoller( im_power *-1 );
+  }
 
+  public void Intake(double im_power)
+  {
+    setIntakeRoller( im_power );
+  }
+
+  public void setIntakeRoller(double power)
+  {
+   // if( isStalled)
+    {
+      Intake.set(0);  
+    }
+    // else{
+
+    // Intake.set(power *-1);
+    // }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
