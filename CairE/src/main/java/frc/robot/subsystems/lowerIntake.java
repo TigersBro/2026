@@ -39,6 +39,11 @@ public class lowerIntake extends SubsystemBase {
   public void Eject(double im_power)
   {
     setIntakeRoller( im_power *-1 );
+  } 
+  
+  public void stop()
+  {
+    setIntakeRoller(0);
   }
 
   public void Intake(double im_power)

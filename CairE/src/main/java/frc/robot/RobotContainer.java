@@ -20,6 +20,8 @@ import static frc.robot.Constants.DashboardConstants.*;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Auto1;
+import frc.robot.commands.EjectCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.lowerIntake;
 import frc.robot.subsystems.upperIntake;
@@ -74,6 +76,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    // HOLD Circle (Regular) -> Intake
+  operatorController.circle().and(operatorController.L1().negate())
+    .whileTrue(new IntakeCommand(upperIntake, lowerIntake));
+
+  // HOLD Circle + L1 (Modifier) -> Eject
+  operatorController.circle().and(operatorController.L1())
+    .whileTrue(new EjectCommand(upperIntake, lowerIntake));
+
+
 
     // While the left bumper on operator controller is held, intake Fuel
     //// operatorController.leftBumper().whileTrue(new Intake(fuelSubsystem));
