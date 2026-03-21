@@ -47,7 +47,8 @@ public class upperIntake extends SubsystemBase {
 
    public void stop()
   {
-    setIntakeRoller(0);
+   // setIntakeRoller(0);
+    Intake.set(0);
   }
 
   public void Intake(double im_power)

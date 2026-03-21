@@ -19,9 +19,9 @@ public class IntakeCommand extends Command {
   @Override
   public void execute() {
     // Fetch live values from the robot's memory
-    double upperSpeed = Preferences.getDouble("UpperIntakeSpeed", 0.8);
-    double lowerSpeed = Preferences.getDouble("LowerIntakeSpeed", 0.7);
-
+    double upperSpeed = Preferences.getDouble("UpperIntakeSpeed", 0.31);
+    double lowerSpeed = Preferences.getDouble("LowerIntakeSpeed", 0.15);
+    lowerSpeed = lowerSpeed*-1;
     m_upper.Intake(upperSpeed);
     m_lower.Intake(lowerSpeed);
   }

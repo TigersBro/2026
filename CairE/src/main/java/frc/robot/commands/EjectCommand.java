@@ -17,9 +17,9 @@ public class EjectCommand extends Command {
 
   @Override
   public void execute() {
-    double upperSpeed = Preferences.getDouble("UpperEjectSpeed", 0.8);
-    double lowerSpeed = Preferences.getDouble("LowerEjectSpeed", 0.7);
-
+    double upperSpeed = Preferences.getDouble("UpperEjectSpeed", 0.75);
+    double lowerSpeed = Preferences.getDouble("LowerEjectSpeed", 0.52);
+    upperSpeed = upperSpeed*-1;
     m_upper.Intake(upperSpeed);
     m_lower.Intake(lowerSpeed);
   }
