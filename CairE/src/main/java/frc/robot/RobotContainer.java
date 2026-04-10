@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -19,10 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
 import static frc.robot.Constants.DashboardConstants.*;
 
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Auto1;
 import frc.robot.commands.EjectCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.PassCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.lowerIntake;
 import frc.robot.subsystems.upperIntake;
@@ -69,6 +72,12 @@ public class RobotContainer {
   }
     if (!Preferences.containsKey("LowerEjectSpeed")) {
     Preferences.setDouble("LowerEjectSpeed", 0.7);
+  }  
+  if (!Preferences.containsKey("UpperPassSpeed")) {
+    Preferences.setDouble("UpperPassSpeed", 0.5);
+  }
+    if (!Preferences.containsKey("LowerPassSpeed")) {
+    Preferences.setDouble("LowerPassSpeed", 0.3);
   }
     
     
@@ -103,6 +112,9 @@ public class RobotContainer {
   // HOLD Circle + L1 (Modifier) -> Eject
   operatorController.circle().and(operatorController.L1())
     .whileTrue(new EjectCommand(upperIntake, lowerIntake));
+  
+  operatorController.circle().and(operatorController.L2())
+    .whileTrue(new PassCommand(upperIntake, lowerIntake));
 
 
     SmartDashboard.putData("Auto Mode", autoChooser);
@@ -137,6 +149,12 @@ controlsTable.getEntry("SPIT IT OUT").setString("TRIANGLE");
         driverController.getY(),
         driverController.getZ(),
         true)));
+
+    driverController.button(DriveConstants.THUMB_TRIGGER)
+        .toggleOnTrue(new InstantCommand(() -> driveSubsystem.speedToggle()));
+
+    driverController.button(DriveConstants.DRIVE_REVERSE_FRONT_BUTTON_ID)
+        .toggleOnTrue(new InstantCommand(() -> driveSubsystem.reverseFront()));
 
   }
 
