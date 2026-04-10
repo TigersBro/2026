@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -15,17 +14,14 @@ import frc.robot.subsystems.upperIntake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto1 extends SequentialCommandGroup {
-
+public class Auto2 extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public Auto1(lowerIntake i_lower, CANDriveSubsystem driveSubsystem, upperIntake i_upper) {
+  public Auto2(lowerIntake i_lower, CANDriveSubsystem driveSubsystem, upperIntake i_upper) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     // ballSubsystem.setFeederRoller(-.3);
     // ballSubsystem.setIntakeRoller(.4);
     // ballSubsystem.setLauncherRoller(.2);
-    double OverTime = Preferences.getDouble("OverAuto", 3);
-    double MatchTime = Preferences.getDouble("MatchLength", 3);
 
     addCommands(
     // Drive backwards for .25 seconds. The driveArcadeAuto command factory
@@ -39,13 +35,7 @@ public class Auto1 extends SequentialCommandGroup {
     //     // Stop driving. This line uses the regular driveArcade command factory so it
     //     // ends immediately after commanding the motors to stop
     //     driveSubsystem.driveArcade(() -> 0, () -> 0),
-   
-   
-   
-    new AutoDrive(driveSubsystem, .35,0).withTimeout(OverTime),
-    new IntakeCommand(i_upper, i_lower).withTimeout(MatchTime-OverTime) 
-
-
+    new AutoDrive(driveSubsystem, 0 ,0).withTimeout(1)
 
    // new ParallelCommandGroup( 
    // new Intake(i_intake, () -> Constants.FuelConstants.INTAKE_AUTO_PERCENT), 

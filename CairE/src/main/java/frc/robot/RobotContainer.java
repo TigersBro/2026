@@ -24,6 +24,7 @@ import static frc.robot.Constants.DashboardConstants.*;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Auto1;
+import frc.robot.commands.Auto2;
 import frc.robot.commands.EjectCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PassCommand;
@@ -80,6 +81,14 @@ public class RobotContainer {
     if (!Preferences.containsKey("LowerPassSpeed")) {
     Preferences.setDouble("LowerPassSpeed", 0.3);
   }
+  
+  if (!Preferences.containsKey("OverAuto")) {
+    Preferences.setDouble("OverAuto", 3);
+  }
+    
+  if (!Preferences.containsKey("MatchLength")) {
+    Preferences.setDouble("MatchLength", 20);
+  }
     
     
     configureBindings();
@@ -93,6 +102,7 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
     autoChooser.setDefaultOption("Autonomous", new Auto1(lowerIntake, driveSubsystem, upperIntake));
+    autoChooser.addOption("Bump and Run", new Auto2(lowerIntake, driveSubsystem, upperIntake));
   }
 
   /**
